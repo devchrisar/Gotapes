@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/devchrisar/Gotapes/routes"
 	"github.com/labstack/echo/v4"
 	"github.com/rs/cors"
 	"os"
@@ -14,6 +15,7 @@ func Handlers() {
 
 	router := echo.New()
 	handlerCrs := cors.AllowAll().Handler(router)
+	routes.RegisterRoute(router)
 
 	router.Logger.Fatal(router.Start(":"+Port), handlerCrs)
 }
