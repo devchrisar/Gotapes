@@ -1,0 +1,30 @@
+version = 1
+
+test_patterns = [
+  "controllers/**",
+  "db/**",
+  "handlers/**",
+  "jwt/**",
+  "middlewares/**",
+  "models/**",
+  "routes/**",
+  "main.go"
+]
+
+[[analyzers]]
+name = "javascript"
+
+  [analyzers.meta]
+  plugins = ["react"]
+
+[[analyzers]]
+name = "go"
+
+  [analyzers.meta]
+  import_root = "github.com/devchrisar/Gotapes"
+
+[[transformers]]
+name = "gofmt"
+
+[[transformers]]
+name = "prettier"
