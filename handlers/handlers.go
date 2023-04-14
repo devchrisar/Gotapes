@@ -16,6 +16,7 @@ func Handlers() {
 	router := echo.New()
 	handlerCrs := cors.AllowAll().Handler(router)
 	routes.RegisterRoute(router)
+	routes.LoginRoute(router)
 
 	router.Logger.Fatal(router.Start(":"+Port), handlerCrs)
 }
