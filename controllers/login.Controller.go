@@ -21,7 +21,7 @@ func LoginHandler(c echo.Context) error {
 		return c.String(400, "email is required")
 	}
 	doc, exists := db.LoginAttempt(user.Email, user.Password)
-	if exists == false {
+	if !exists {
 		return c.String(400, "user or password is incorrect")
 	}
 	jwt, err := jwt2.GenerateJWT(doc)
@@ -32,7 +32,7 @@ func LoginHandler(c echo.Context) error {
 		Token: jwt,
 	}
 	c.Response().Header().Set("Content-Type", "application/json")
-	c.JSON(http.StatusCreated, "")
+	c.Response().WriteHeader(http.StatusCreated)
 	json.NewEncoder(c.Response().Writer).Encode(res)
 	expirationTime := time.Now().Add(24 * time.Hour)
 	cookie := new(http.Cookie)
@@ -40,5 +40,5 @@ func LoginHandler(c echo.Context) error {
 	cookie.Value = jwt
 	cookie.Expires = expirationTime
 	http.SetCookie(c.Response().Writer, cookie)
-	return c.String(http.StatusOK, "cookie set")
+	return c.String(http.StatusOK, "")
 }

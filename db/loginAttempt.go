@@ -7,7 +7,7 @@ import (
 
 func LoginAttempt(email string, password string) (models.User, bool) {
 	user, exists, _ := UserExists(email)
-	if exists == false {
+	if !exists {
 		return user, false
 	}
 	passwordBytes := []byte(password)
