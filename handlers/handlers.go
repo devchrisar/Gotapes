@@ -18,6 +18,7 @@ func Handlers() {
 	routes.RegisterRoute(router)
 	routes.LoginRoute(router)
 	routes.ProfileRoute(router)
+	routes.AlterprofileRoute(router)
 
 	router.Logger.Fatal(router.Start(":"+Port), handlerCrs)
 }
