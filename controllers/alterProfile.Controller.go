@@ -18,7 +18,7 @@ func AlterProfile(c echo.Context) error {
 	if err != nil {
 		return c.JSON(400, "error updating user "+err.Error())
 	}
-	if status == false {
+	if !status {
 		return c.JSON(400, "could not update user")
 	}
 	return c.JSON(201, "user updated")
