@@ -11,6 +11,9 @@ import (
 func Tweet(c echo.Context) error {
 	var msg models.TweetMessage
 	err := json.NewDecoder(c.Request().Body).Decode(&msg)
+	if err != nil {
+		return c.JSON(400, "error decoding tweet message "+err.Error())
+	}
 	register := models.Tweet{
 		UserID:  Userid,
 		Message: msg.Message,
