@@ -13,7 +13,7 @@ func TweetInsertion(tweet models.Tweet) (string, bool, error) {
 	defer cancel()
 	collection := MongoC.Database("Gotapes").Collection("tweets")
 	register := bson.M{
-		"userId":  tweet.UserID,
+		"userid":  tweet.UserID,
 		"message": tweet.Message,
 		"date":    tweet.Date,
 	}

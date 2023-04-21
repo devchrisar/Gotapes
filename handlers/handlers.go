@@ -20,6 +20,7 @@ func Handlers() {
 	routes.ProfileRoute(router)
 	routes.AlterprofileRoute(router)
 	routes.TweetRoute(router)
+	routes.ReadTweetsRoute(router)
 
 	router.Logger.Fatal(router.Start(":"+Port), handlerCrs)
 }
