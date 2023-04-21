@@ -7,5 +7,5 @@ import (
 )
 
 func ReadTweetsRoute(router *echo.Echo) {
-	router.GET("/read-tweet", middlewares.DbCheck(middlewares.ValidateJWT(controllers.ReadTweets)))
+	router.GET("/read-tweets", middlewares.DbCheck(middlewares.ValidateJWT(controllers.ReadTweets)))
 }
