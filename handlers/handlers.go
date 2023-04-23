@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/devchrisar/Gotapes/db"
 	"github.com/devchrisar/Gotapes/routes"
 	"github.com/labstack/echo/v4"
 	"github.com/rs/cors"
@@ -22,6 +23,8 @@ func Handlers() {
 	routes.TweetRoute(router)
 	routes.ReadTweetsRoute(router)
 	routes.DeleteTweetsRoute(router)
+
+	go db.ConsumeFromQueue()
 
 	router.Logger.Fatal(router.Start(":"+Port), handlerCrs)
 }
