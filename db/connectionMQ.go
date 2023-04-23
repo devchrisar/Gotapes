@@ -78,13 +78,13 @@ func PublishToQueue(tweet models.Tweet) error {
 func ConsumeFromQueue() {
 	conn, err := amqp.Dial(os.Getenv("RABBIT_URI"))
 	if err != nil {
-		log.Fatalf("could not connect to RabbitMQ: %v", err)
+		log.Printf("could not connect to RabbitMQ: %v", err)
 	}
 	defer conn.Close()
 
 	ch, err := conn.Channel()
 	if err != nil {
-		log.Fatalf("could not open channel: %v", err)
+		log.Printf("could not open channel: %v", err)
 	}
 	defer ch.Close()
 
@@ -97,7 +97,7 @@ func ConsumeFromQueue() {
 		nil,
 	)
 	if err != nil {
-		log.Fatalf("could not declare queue: %v", err)
+		log.Printf("could not declare queue: %v", err)
 	}
 
 	err = ch.QueueBind(
@@ -108,7 +108,7 @@ func ConsumeFromQueue() {
 		nil,
 	)
 	if err != nil {
-		log.Fatalf("Failed to bind the queue to the tweets exchange: %v", err)
+		log.Printf("Failed to bind the queue to the tweets exchange: %v", err)
 	}
 
 	msgs, err := ch.Consume(
@@ -121,7 +121,7 @@ func ConsumeFromQueue() {
 		nil,
 	)
 	if err != nil {
-		log.Fatalf("could not register consumer: %v", err)
+		log.Printf("could not register consumer: %v", err)
 	}
 
 	go func() {
