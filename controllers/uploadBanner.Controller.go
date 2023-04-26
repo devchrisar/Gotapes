@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"io"
 	"os"
-	"strings"
+	"path/filepath"
 )
 
 func UploadBanner(c echo.Context) error {
@@ -14,8 +14,8 @@ func UploadBanner(c echo.Context) error {
 	if err != nil {
 		return c.JSON(400, "you must send a banner "+err.Error())
 	}
-	var extension = strings.Split(handlr.Filename, ".")[1]
-	var filename = "uploads/banners/" + Userid + "." + extension
+	var extension = filepath.Ext(handlr.Filename)
+	var filename = "uploads/banners/" + Userid + extension
 	f, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return c.JSON(400, "error uploading banner "+err.Error())
@@ -26,7 +26,7 @@ func UploadBanner(c echo.Context) error {
 	}
 	var user models.User
 	var status bool
-	user.Banner = Userid + "." + extension
+	user.Banner = Userid + extension
 	status, err = db.AlterRegister(user, Userid)
 	if err != nil || !status {
 		return c.JSON(400, "error inserting banner in db "+err.Error())

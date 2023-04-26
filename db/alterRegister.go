@@ -17,11 +17,12 @@ func AlterRegister(user models.User, ID string) (bool, error) {
 	addField := func(fieldName string, fieldValue interface{}) {
 		if len(fieldValue.(string)) > 0 {
 			update[fieldName] = fieldValue
+		} else if !user.BirthDate.IsZero() {
+			update["birthDate"] = user.BirthDate
 		}
 	}
 	addField("name", user.Name)
 	addField("lastName", user.LastName)
-	update["birthDate"] = user.BirthDate
 	addField("avatar", user.Avatar)
 	addField("banner", user.Banner)
 	addField("bio", user.Bio)
