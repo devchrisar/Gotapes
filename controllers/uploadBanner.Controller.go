@@ -11,9 +11,12 @@ import (
 
 func UploadBanner(c echo.Context) error {
 	file, handlr, err := c.Request().FormFile("banner")
+	if err != nil {
+		return c.JSON(400, "you must send a banner "+err.Error())
+	}
 	var extension = strings.Split(handlr.Filename, ".")[1]
 	var filename = "uploads/banners/" + Userid + "." + extension
-	f, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0666)
+	f, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return c.JSON(400, "error uploading banner "+err.Error())
 	}

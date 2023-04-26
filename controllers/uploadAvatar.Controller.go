@@ -11,9 +11,12 @@ import (
 
 func UploadAvatar(c echo.Context) error {
 	file, handlr, err := c.Request().FormFile("avatar")
+	if err != nil {
+		return c.JSON(400, "you must send an avatar "+err.Error())
+	}
 	var extension = strings.Split(handlr.Filename, ".")[1]
 	var filename = "uploads/avatars/" + Userid + "." + extension
-	f, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0666)
+	f, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return c.JSON(400, "error uploading avatar "+err.Error())
 	}
