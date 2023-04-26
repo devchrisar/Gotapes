@@ -23,6 +23,10 @@ func Handlers() {
 	routes.TweetRoute(router)
 	routes.ReadTweetsRoute(router)
 	routes.DeleteTweetsRoute(router)
+	routes.UploadAvatarRoute(router)
+	routes.UploadBannerRoute(router)
+	routes.ObtainAvatarRoute(router)
+	routes.ObtainBannerRoute(router)
 
 	go db.ConsumeFromQueue()
 
