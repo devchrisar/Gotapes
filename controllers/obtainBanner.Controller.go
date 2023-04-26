@@ -8,7 +8,7 @@ import (
 )
 
 func ObtainBanner(c echo.Context) error {
-	ID := c.Param("id")
+	ID := c.QueryParam("id")
 	if len(ID) < 1 {
 		return c.JSON(400, "id not found")
 	}
