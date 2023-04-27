@@ -27,6 +27,7 @@ func Handlers() {
 	routes.UploadBannerRoute(router)
 	routes.ObtainAvatarRoute(router)
 	routes.ObtainBannerRoute(router)
+	routes.HigherRelationRoute(router)
 
 	go db.ConsumeFromQueue()
 
