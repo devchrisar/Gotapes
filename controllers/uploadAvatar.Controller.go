@@ -1,32 +1,35 @@
 package controllers
 
 import (
+	"context"
+	"github.com/cloudinary/cloudinary-go/v2"
+	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
 	"github.com/devchrisar/Gotapes/db"
 	"github.com/devchrisar/Gotapes/models"
+	_ "github.com/joho/godotenv/autoload"
 	"github.com/labstack/echo/v4"
-	"io"
 	"os"
-	"path/filepath"
 )
 
 func UploadAvatar(c echo.Context) error {
-	file, handlr, err := c.Request().FormFile("avatar")
+	cld, _ := cloudinary.NewFromParams(os.Getenv("CLOUD_NAME"), os.Getenv("CLOUD_KEY"), os.Getenv("CLOUD_SECRET_KEY"))
+	file, _, err := c.Request().FormFile("avatar")
 	if err != nil {
 		return c.JSON(400, "you must send an avatar "+err.Error())
 	}
-	var extension = filepath.Ext(handlr.Filename)
-	var filename = "uploads/avatars/" + Userid + extension
-	f, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0600)
+	var fileWithExt = Userid
+	resp, err := cld.Upload.Upload(context.Background(), file, uploader.UploadParams{
+		PublicID:       fileWithExt,
+		Folder:         "Apex/Gotapes/uploads/avatars/",
+		Tags:           []string{"avatar", "profile"},
+		Transformation: "c_fill,g_face",
+	})
 	if err != nil {
-		return c.JSON(400, "error uploading avatar "+err.Error())
-	}
-	_, err = io.Copy(f, file)
-	if err != nil {
-		return c.JSON(400, "error copying avatar "+err.Error())
+		return c.JSON(400, "error uploading avatar to cloudinary "+err.Error())
 	}
 	var user models.User
 	var status bool
-	user.Avatar = Userid + extension
+	user.Avatar = resp.SecureURL
 	status, err = db.AlterRegister(user, Userid)
 	if err != nil || !status {
 		return c.JSON(400, "error inserting avatar in db "+err.Error())
