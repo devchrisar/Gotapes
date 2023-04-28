@@ -30,6 +30,7 @@ func Handlers() {
 	routes.HigherRelationRoute(router)
 	routes.LowerRelationRoute(router)
 	routes.CheckRelationRoute(router)
+	routes.ListUsersRoute(router)
 
 	go db.ConsumeFromQueue()
 
