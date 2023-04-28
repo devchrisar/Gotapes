@@ -38,7 +38,6 @@ func PublishToQueue(tweet models.Tweet) error {
 		return err
 	}
 
-	// this part could be removed
 	q, err := ch.QueueDeclare(
 		"Gotapes_tweetsQueue",
 		true,
@@ -50,7 +49,6 @@ func PublishToQueue(tweet models.Tweet) error {
 	if err != nil {
 		return fmt.Errorf("could not declare queue: %v", err)
 	}
-	// end of part that could be removed
 
 	body, err := json.Marshal(tweet)
 	if err != nil {
