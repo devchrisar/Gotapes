@@ -37,23 +37,23 @@ func ReadAllUsers(id string, page int64, search string, Type string) ([]*models.
 		var user models.User
 		err := cur.Decode(&user)
 		if err != nil {
-			return results, false
+			return nil, false
 		}
 		var relation models.Relation
 		relation.UserID = id
 		relation.UserRelationID = user.ID.Hex()
 		includeU = false
-		foundU, err = CheckRelation(relation)
-		if Type == "new" && foundU == false {
+		foundU, err := CheckRelation(relation)
+		if Type == "new" && !foundU {
 			includeU = true
 		}
-		if Type == "follow" && foundU == true {
+		if Type == "follow" && foundU {
 			includeU = true
 		}
 		if relation.UserRelationID == id {
 			includeU = false
 		}
-		if includeU == true {
+		if includeU {
 			results = append(results, &user)
 		}
 	}
