@@ -20,3 +20,5 @@ go.work
 **.idea/
 .env
 tmp/
+uploads/avatars/*
+uploads/banners/*
