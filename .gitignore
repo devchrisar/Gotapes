@@ -1,4 +1,4 @@
-# Binaries for programs and plugins
+#* Binaries for programs and plugins
 *.exe
 *.exe~
 *.dll
@@ -8,13 +8,13 @@
 # Test binary, built with `go test -c`
 *.test
 
-# Output of the go coverage tool, specifically when used with LiteIDE
+#* Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
-# Dependency directories (remove the comment below to include it)
+#* Dependency directories (remove the comment below to include it)
 # vendor/
 
-# Go workspace file
+#* Go workspace file
 go.work
 
 **.idea/
@@ -22,3 +22,32 @@ go.work
 tmp/
 uploads/avatars/*
 uploads/banners/*
+
+#* client
+# Logs
+client/logs
+client/*.log
+client/*.lock
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+client/pnpm-debug.log*
+client/lerna-debug.log*
+client/.pnp.*
+client/.yarn/
+
+client/node_modules
+client/dist
+client/dist-ssr
+client/*.local
+
+# Editor directories and files
+client/.vscode/*
+client/!.vscode/extensions.json
+client/.idea
+client/.DS_Store
+client/*.suo
+client/*.ntvs*
+client/*.njsproj
+client/*.sln
+client/*.sw?
