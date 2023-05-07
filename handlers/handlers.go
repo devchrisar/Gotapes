@@ -4,7 +4,8 @@ import (
 	"github.com/devchrisar/Gotapes/db"
 	"github.com/devchrisar/Gotapes/routes"
 	"github.com/labstack/echo/v4"
-	"github.com/rs/cors"
+	"github.com/labstack/echo/v4/middleware"
+	"net/http"
 	"os"
 )
 
@@ -15,7 +16,11 @@ func Handlers() {
 	}
 
 	router := echo.New()
-	handlerCrs := cors.AllowAll().Handler(router)
+	router.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"}, // Replace * with your frontend's URL in production
+		AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}))
 	routes.RegisterRoute(router)
 	routes.LoginRoute(router)
 	routes.ProfileRoute(router)
@@ -35,5 +40,5 @@ func Handlers() {
 
 	go db.ConsumeFromQueue()
 
-	router.Logger.Fatal(router.Start(":"+Port), handlerCrs)
+	router.Logger.Fatal(router.Start(":" + Port))
 }
