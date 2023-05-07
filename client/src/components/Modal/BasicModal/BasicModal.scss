@@ -1,0 +1,19 @@
+@import "../../../scss/index.scss";
+
+.chakra-modal__content-container {
+  .chakra-modal__content {
+    background-color: $background-grey-dark;
+    border-radius: 25px;
+  }
+  .chakra-modal__header {
+    padding: 15px;
+    border: 0;
+    img {
+      margin: 0 auto;
+      width: 40px;
+    }
+  }
+  .chakra-modal__body {
+    padding: 20px 40px 40px 40px;
+  }
+}
