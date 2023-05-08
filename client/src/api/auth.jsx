@@ -6,7 +6,8 @@ export function signUpApi(user) {
   const modifiedUser = {
     ...userTemp,
     email: user.email.toLowerCase(),
-    birthDate: Date.now(),
+    birthDate: new Date().toISOString(),
+    password: user.GoogleSignUp ? "" : user.password,
   };
   const params = {
     method: "POST",

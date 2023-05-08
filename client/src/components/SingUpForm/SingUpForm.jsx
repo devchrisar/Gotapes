@@ -10,13 +10,13 @@ import {
   FormErrorMessage,
   Spinner,
 } from "@chakra-ui/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { motion } from "framer-motion";
 import { values, size } from "lodash";
 import toast from "react-hot-toast";
 import { validationSchema } from "../../utils/validation";
 import { signUpApi } from "../../api/auth";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import jwtDecode from "jwt-decode";
 
 export default function SingUpForm(props) {
   const { setShowModal } = props;
@@ -107,14 +107,14 @@ export default function SingUpForm(props) {
               <FormLabel>Last Name</FormLabel>
               <Input
                 type="text"
-                value={formData.lastname}
+                value={formData.lastName}
                 onChange={(e) =>
-                  setFormData({ ...formData, lastname: e.target.value })
+                  setFormData({ ...formData, lastName: e.target.value })
                 }
-                isInvalid={!!errors.lastname}
+                isInvalid={!!errors.lastName}
               />
-              {errors.lastname && (
-                <FormErrorMessage>{errors.lastname}</FormErrorMessage>
+              {errors.lastName && (
+                <FormErrorMessage>{errors.lastName}</FormErrorMessage>
               )}
             </FormControl>
           </HStack>
@@ -171,8 +171,53 @@ export default function SingUpForm(props) {
           <div className="sing-up-form__lineGroup__line_text">Or</div>
           <div className="sing-up-form__lineGroup__line_right"></div>
         </div>
-        <Button onClick={onSubmit}>
-          Sign Up for Google <FontAwesomeIcon icon={faGoogle} bounce />
+        <Button>
+          <GoogleOAuthProvider clientId="1060640613666-8iuuruthub48ehgu3ljtuqa2t7tol77v.apps.googleusercontent.com">
+            <GoogleLogin
+              theme="filled_blue"
+              shape="pill"
+              onSuccess={(credentialResponse) => {
+                const { credential } = credentialResponse;
+                const decoded = jwtDecode(credential);
+                const { given_name, family_name, email } = decoded;
+                console.log(credentialResponse); // Add this line to inspect the credentialResponse object
+                console.log(decoded); // Add this line to inspect the credentialResponse object
+
+                const data = {
+                  name: given_name,
+                  lastName: family_name,
+                  email: email,
+                  GoogleSignUp: credentialResponse,
+                };
+
+                SetsingUpLoading(true);
+                signUpApi(data)
+                  .then((response) => {
+                    if (response.code) {
+                      toast.error(response.message, {
+                        className: "toast__container",
+                      });
+                    } else {
+                      toast.success("Registration successful", {
+                        className: "toast__container",
+                      });
+                      setShowModal(false);
+                    }
+                  })
+                  .catch(() => {
+                    toast.error("Error when registering the user", {
+                      className: "toast__container",
+                    });
+                  })
+                  .finally(() => {
+                    SetsingUpLoading(false);
+                  });
+              }}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+            />
+          </GoogleOAuthProvider>
         </Button>
       </motion.div>
     </div>
@@ -182,7 +227,7 @@ export default function SingUpForm(props) {
 function initialFormValue() {
   return {
     name: "",
-    lastname: "",
+    lastName: "",
     email: "",
     password: "",
     repeatPassword: "",

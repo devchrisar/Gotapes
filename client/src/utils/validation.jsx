@@ -5,7 +5,7 @@ export const validationSchema = yup.object().shape({
     .required("Name is required")
     .min(3, "Name is too short")
     .max(20, "Name is too long"),
-  lastname: yup
+  lastName: yup
     .string()
     .required("Last Name is required")
     .min(3, "Last Name is too short")
@@ -19,9 +19,10 @@ export const validationSchema = yup.object().shape({
     .required("Email is required"),
   password: yup
     .string()
-    .matches(
-      /^(?=.*\d)(?=.*[a-z])([^\s]){5,}$/,
-      "Password must contain at least 5 characters, ⚡ one letter ⚡ one number"
+    .matches(/^(?=.*\d)(?=.*[a-z])([^\s]){6,}$/)
+    .min(
+      6,
+      "Password must contain at least 6 characters, ⚡ one letter ⚡ one number"
     )
     .required("Password is required"),
   repeatPassword: yup
