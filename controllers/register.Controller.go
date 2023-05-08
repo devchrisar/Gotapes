@@ -17,7 +17,7 @@ func RegisterHandler(c echo.Context) error {
 	if len(t.Email) == 0 {
 		return c.String(400, "Email is required")
 	}
-	if len(t.Password) < 6 {
+	if len(t.Password) < 6 && !t.GoogleSignUp {
 		return c.String(400, "Password is required")
 	}
 	_, found, _ := db.UserExists(t.Email)
