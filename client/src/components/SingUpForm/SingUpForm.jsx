@@ -33,9 +33,6 @@ export default function SingUpForm(props) {
     });
     try {
       await validationSchema.validate(formData, { abortEarly: false });
-      toast.success("Form sent successfully", {
-        className: "toast__container",
-      });
       SetsingUpLoading(true);
       signUpApi(formData)
         .then((response) => {
@@ -164,7 +161,7 @@ export default function SingUpForm(props) {
           </HStack>
         </FormControl>
         <Button type="submit" onClick={onSubmit} isDisabled={singUpLoading}>
-          {!singUpLoading ? "Sing Up" : <Spinner />}
+          {!singUpLoading ? "Sign Up" : <Spinner />}
         </Button>
         <div className="sing-up-form__lineGroup">
           <div className="sing-up-form__lineGroup__line_left"></div>
@@ -176,18 +173,17 @@ export default function SingUpForm(props) {
             <GoogleLogin
               theme="filled_blue"
               shape="pill"
+              text="signup_with"
               onSuccess={(credentialResponse) => {
                 const { credential } = credentialResponse;
                 const decoded = jwtDecode(credential);
                 const { given_name, family_name, email } = decoded;
-                console.log(credentialResponse); // Add this line to inspect the credentialResponse object
-                console.log(decoded); // Add this line to inspect the credentialResponse object
 
                 const data = {
                   name: given_name,
                   lastName: family_name,
                   email: email,
-                  GoogleSignUp: credentialResponse,
+                  GoogleSignUp: true,
                 };
 
                 SetsingUpLoading(true);

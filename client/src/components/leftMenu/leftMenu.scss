@@ -1,0 +1,53 @@
+@import "../../scss/index.scss";
+
+.left_menu {
+  .logo {
+    width: 50px;
+    padding: 20px 0 2px 0;
+  }
+
+  .menu_link {
+    font-size: 20px;
+    color: $font-light;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-decoration: none;
+
+    &:hover {
+      border-radius: 70px;
+      background-color: rgba($color: #25415b, $alpha: 0.4);
+      text-decoration: none;
+      color: $font-light;
+    }
+
+    &.active {
+      font-weight: bold;
+      color: $primary;
+    }
+
+    svg {
+      margin-right: 20px;
+      width: 30px;
+    }
+  }
+
+  .btn {
+    width: 80%;
+    border-radius: 50px;
+    font-size: 18px;
+    padding: 10px;
+    margin-top: 30px;
+    font-weight: bold;
+  }
+
+  .text_bottom {
+    margin-top: auto;
+    &:hover {
+      border-radius: 70px;
+      background-color: rgba($color: #25415b, $alpha: 0.4);
+      text-decoration: none;
+      color: $font-light;
+      cursor: pointer;
+    }
+  }
+}
