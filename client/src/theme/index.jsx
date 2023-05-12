@@ -11,6 +11,10 @@ export default extendTheme({
         "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
         sans-serif`,
       },
+      "html,body,#root": {
+        height: "100%",
+        overflowX: "hidden",
+      },
       a: {
         color: "brand.primary",
         textDecoration: "underline",

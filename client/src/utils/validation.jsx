@@ -19,7 +19,10 @@ export const validationSchema = yup.object().shape({
     .required("Email is required"),
   password: yup
     .string()
-    .matches(/^(?=.*\d)(?=.*[a-z])([^\s]){6,}$/)
+    .matches(
+      /^(?=.*\d)(?=.*[a-z])([^\s]){6,}$/,
+      "Password must contain at least 6 characters, ⚡ one letter ⚡ one number"
+    )
     .min(
       6,
       "Password must contain at least 6 characters, ⚡ one letter ⚡ one number"
@@ -29,4 +32,9 @@ export const validationSchema = yup.object().shape({
     .string()
     .oneOf([yup.ref("password"), null], "Passwords must match")
     .required("Repeat Password is required"),
+});
+
+export const loginFieldSchema = yup.object().shape({
+  email: validationSchema.fields.email,
+  password: validationSchema.fields.password,
 });
