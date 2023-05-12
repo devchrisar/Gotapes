@@ -1,4 +1,6 @@
-import { API_HOST } from "../utils/constant";
+import { API_HOST, TOKEN } from "../utils/constant";
+import jwtDecode from "jwt-decode";
+import Cookie from "js-cookie";
 
 export function signUpApi(user) {
   const url = `${API_HOST}/register`;
@@ -16,7 +18,6 @@ export function signUpApi(user) {
     },
     body: JSON.stringify(modifiedUser),
   };
-  console.log(modifiedUser);
   return fetch(url, params)
     .then((response) => {
       if (response.status >= 200 && response.status < 300) {
@@ -30,4 +31,69 @@ export function signUpApi(user) {
     .catch((err) => {
       return err;
     });
+}
+
+export function signInApi(user) {
+  const url = `${API_HOST}/login`;
+  const data = {
+    ...user,
+    email: user.email.toLowerCase(),
+  };
+  const params = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+  return fetch(url, params)
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      return { message: "Email or password incorrect." };
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err;
+    });
+}
+
+export function setTokenApi(token) {
+  Cookie.set(TOKEN, token, {
+    expires: 1,
+    secure: true,
+    sameSite: "strict",
+    path: "/",
+  });
+}
+
+export function getTokenApi() {
+  return Cookie.get(TOKEN);
+}
+
+export function LogoutApi() {
+  Cookie.remove(TOKEN);
+}
+
+function isExpiredToken(token) {
+  const { exp } = jwtDecode(token);
+  const expirationDate = new Date(exp * 1000);
+  const timeOut = expirationDate.getTime() - new Date().getTime();
+
+  if (timeOut < 0) return true;
+}
+
+export function isUserLogedApi() {
+  const token = getTokenApi();
+  if (!token) {
+    LogoutApi();
+    return null;
+  }
+  if (isExpiredToken(token)) {
+    LogoutApi();
+  }
+  return jwtDecode(token);
 }

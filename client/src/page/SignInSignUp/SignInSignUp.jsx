@@ -19,8 +19,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import BasicModal from "../../components/Modal/BasicModal/BasicModal";
 import SignUpForm from "../../components/SingUpForm/SingUpForm";
+import SignInForm from "../../components/SignInForm/SignInForm";
+import LogoWhite from "../../assets/svg/logo_GotapesWt-png.png";
+import Logo from "../../assets/svg/logo_Gotapes-svg.svg";
 
-export default function SignInSignUp() {
+export default function SignInSignUp(props) {
+  const { setRefreshCheckLogin } = props;
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setContentModal] = useState(null);
   const openModal = (content) => {
@@ -33,7 +37,11 @@ export default function SignInSignUp() {
         <Container maxW="none" m="0" p="0" className="signin_signup">
           <Flex>
             <LeftComponent />
-            <RightComponent openModal={openModal} setShowModal={setShowModal} />
+            <RightComponent
+              openModal={openModal}
+              setShowModal={setShowModal}
+              setRefreshCheckLogin={setRefreshCheckLogin}
+            />
           </Flex>
         </Container>
         <BasicModal show={showModal} setShow={setShowModal}>
@@ -58,11 +66,7 @@ function LeftComponent() {
         variants={variants}
         transition={{ duration: 0.5 }}
       >
-        <Image
-          className="signin_signup__left__logo"
-          src="./src/assets/svg/logo_Gotapes-svg.svg"
-          alt="logo"
-        />
+        <Image className="signin_signup__left__logo" src={Logo} alt="logo" />
         <Stack spacing="40px">
           <Text className="signin_signup__left__title">
             <FontAwesomeIcon icon={faUsers} />
@@ -83,7 +87,7 @@ function LeftComponent() {
 }
 
 function RightComponent(props) {
-  const { openModal, setShowModal } = props;
+  const { openModal, setShowModal, setRefreshCheckLogin } = props;
   return (
     <Box className="signin_signup__right" w="50%" h="100vh">
       <motion.div
@@ -92,7 +96,7 @@ function RightComponent(props) {
         transition={{ duration: 0.6 }}
       >
         <Box className="signin_signup__right__content">
-          <Image src="./src/assets/svg/logo_GotapesWt-png.png" alt="logo" />
+          <Image src={LogoWhite} alt="logo" />
           <Heading as="h2">
             Embrace your primal instincts and express yourself on Gotapes - the
             social network for apes who are not afraid to show their true
@@ -138,7 +142,14 @@ function RightComponent(props) {
           <Text as="h3">¿Already have an account?</Text>
           <Button
             className="btn btn-outline-primary"
-            onClick={() => openModal(<h2>formulario de sesion</h2>)}
+            onClick={() =>
+              openModal(
+                <SignInForm
+                  setShowModal={setShowModal}
+                  setRefreshCheckLogin={setRefreshCheckLogin}
+                />
+              )
+            }
           >
             Sign In
           </Button>
