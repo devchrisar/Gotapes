@@ -35,7 +35,6 @@ export default function EmojiPickerComponent({ onSelect }) {
             showPreview={false}
             showSkinTones={false}
             useButton={false}
-            autoFocus={true}
           />
         </PopoverBody>
       </PopoverContent>

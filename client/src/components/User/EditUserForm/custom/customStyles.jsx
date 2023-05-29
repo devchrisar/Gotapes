@@ -31,16 +31,16 @@ export const customStyles = {
       color: "#fff",
     }),
   }),
-  singleValue: (provided, state) => ({
+  singleValue: (provided) => ({
     ...provided,
     color: "#fff",
     opacity: 0.8,
   }),
-  menu: (provided, state) => ({
+  menu: (provided) => ({
     ...provided,
     backgroundColor: CustomTheme.colors.brand.background_grey_dark,
   }),
-  dropdownIndicator: (provided, state) => ({
+  dropdownIndicator: (provided) => ({
     ...provided,
     color: "#0a4f59",
     opacity: 0.8,
@@ -49,7 +49,7 @@ export const customStyles = {
     },
   }),
 
-  indicatorSeparator: (provided, state) => ({
+  indicatorSeparator: (provided) => ({
     ...provided,
     backgroundColor: "#0a4f59",
     opacity: 0.8,

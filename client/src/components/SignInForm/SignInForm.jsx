@@ -25,6 +25,13 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import SignUpForm from "../SingUpForm/SingUpForm";
 import jwtDecode from "jwt-decode";
 
+function initialFormValue() {
+  return {
+    email: "",
+    password: "",
+  };
+}
+
 export default function SignInForm(props) {
   const { setShowModal, setRefreshCheckLogin } = props;
   const [formData, setFormData] = useState(initialFormValue());
@@ -80,7 +87,6 @@ export default function SignInForm(props) {
             });
           } else {
             setTokenApi(response.token);
-            console.log(response.token);
             setRefreshCheckLogin(true);
 
             setFormData(initialFormValue());
@@ -247,7 +253,7 @@ export default function SignInForm(props) {
               </Button>
               <Button>¿Forgot password?</Button>
               <Text mt={4} fontSize="sm">
-                Don't have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <Link color="blue.500" onClick={handleRouteUserToSignUp}>
                   Register
                 </Link>
@@ -285,7 +291,7 @@ export default function SignInForm(props) {
                 <Flex justify="space-between">
                   <Link color="blue.500">Forgot password?</Link>{" "}
                   <Link color="blue.500" onClick={handleRouteUserToSignUp}>
-                    Don't have an account? Register
+                    Don&apos;t have an account? Register
                   </Link>
                 </Flex>
               </Text>
@@ -295,11 +301,4 @@ export default function SignInForm(props) {
       )}
     </div>
   );
-}
-
-function initialFormValue() {
-  return {
-    email: "",
-    password: "",
-  };
 }

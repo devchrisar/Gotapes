@@ -4,9 +4,9 @@ export default extendTheme({
   styles: {
     global: {
       body: {
-        bgColor: `brand.background_grey_dark`,
+        bgColor: "brand.background_grey_dark",
         m: "0px",
-        color: `brand.font_light`,
+        color: "brand.font_light",
         fontFamily: `-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
         "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
         sans-serif`,

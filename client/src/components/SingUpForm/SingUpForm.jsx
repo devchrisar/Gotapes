@@ -103,7 +103,7 @@ export default function SingUpForm(props) {
     const data = {
       name: given_name,
       lastName: family_name,
-      email: email,
+      email,
       avatar: picture,
       GoogleSignUp: true,
     };
@@ -131,7 +131,7 @@ export default function SingUpForm(props) {
     }
   };
 
-  const handleGoogleLoginError = (error) => {
+  const handleGoogleLoginError = () => {
     toast.error("Failed to sign in with Google", {
       className: "toast__container",
     });

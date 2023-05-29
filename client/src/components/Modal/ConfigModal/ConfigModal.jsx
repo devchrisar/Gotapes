@@ -53,4 +53,5 @@ const ConfigModal = React.memo(
     return prevProps.show === nextProps.show;
   }
 );
+ConfigModal.displayName = "ConfigModal";
 export default ConfigModal;

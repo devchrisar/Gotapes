@@ -155,10 +155,6 @@ function LocationComponent({ field, handleChange, formData }) {
     label: formData[field.name],
   });
 
-  useEffect(() => {
-    fetchCountries();
-  }, []);
-
   const fetchCountries = async () => {
     try {
       const response = await fetch(
@@ -178,6 +174,10 @@ function LocationComponent({ field, handleChange, formData }) {
       console.error("Error fetching countries:", error);
     }
   };
+
+  useEffect(() => {
+    fetchCountries();
+  }, []);
 
   const loadOptions = async (inputValue, callback) => {
     try {
@@ -236,7 +236,7 @@ function DefaultComponent({ field, handleChange, formData }) {
 
 export default function EditUserForm({ onClose, user, handleUserUpdate }) {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [formData, setFormData] = useState(initialformData(user));
+  const [formData, setFormData] = useState(initialformData());
   const [bannerUrl, setBannerUrl] = useState(
     user?.banner ? `${API_HOST}/obtain_Banner?id=${user.id}` : null
   );
@@ -286,7 +286,7 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
     }
   }, [formData, isUpdating]);
 
-  function initialformData(user) {
+  function initialformData() {
     return {
       birthDate: user.birthDate ? new Date(user.birthDate) : null,
       name: user.name || "",
@@ -428,46 +428,6 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
     }
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
-    if (currentSlide === slides.length - 1) {
-      onClose();
-      setModalClosed(true);
-      return;
-    }
-
-    let shouldProceed = true;
-
-    if (isFormModified) {
-      const currentField = fields[currentSlide];
-      const originalValue = user[currentField.name] || "";
-      const fieldValue = formData[currentField.name] || "";
-
-      if (fieldValue !== originalValue) {
-        try {
-          const validationSchema = getValidationSchema(currentField.name);
-
-          if (!isSpecialField(currentField.name)) {
-            await validateFormData(validationSchema);
-          }
-
-          updateSpecialFields(currentField.name, fieldValue);
-          setIsUpdating(true);
-        } catch (error) {
-          shouldProceed = handleValidationErrors(error);
-        }
-      } else {
-        setIsFormModified(false);
-      }
-    }
-
-    if (shouldProceed) {
-      setIsFormModified(false);
-      onNextSlide();
-    }
-  };
-
   const getValidationSchema = (fieldName) => {
     switch (fieldName) {
       case "name":
@@ -528,9 +488,9 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
   };
 
   const handleValidationErrors = (error) => {
-    const validationErrors = (error.inner || []).reduce((errors, err) => {
-      errors[err.path] = err.message;
-      return errors;
+    const validationErrors = (error.inner || []).reduce((errs, err) => {
+      errs[err.path] = err.message;
+      return errs;
     }, {});
 
     setErrors(validationErrors);
@@ -543,6 +503,46 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
       return false;
     }
     return true;
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    if (currentSlide === slides.length - 1) {
+      onClose();
+      setModalClosed(true);
+      return;
+    }
+
+    let shouldProceed = true;
+
+    if (isFormModified) {
+      const currentField = fields[currentSlide];
+      const originalValue = user[currentField.name] || "";
+      const fieldValue = formData[currentField.name] || "";
+
+      if (fieldValue !== originalValue) {
+        try {
+          const validationSchema = getValidationSchema(currentField.name);
+
+          if (!isSpecialField(currentField.name)) {
+            await validateFormData(validationSchema);
+          }
+
+          updateSpecialFields(currentField.name, fieldValue);
+          setIsUpdating(true);
+        } catch (error) {
+          shouldProceed = handleValidationErrors(error);
+        }
+      } else {
+        setIsFormModified(false);
+      }
+    }
+
+    if (shouldProceed) {
+      setIsFormModified(false);
+      onNextSlide();
+    }
   };
 
   const slide = slides[currentSlide];
