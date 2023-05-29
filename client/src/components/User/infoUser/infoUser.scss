@@ -1,0 +1,33 @@
+@import "../../../scss/index.scss";
+
+.user {
+  .info-user {
+    margin-top: 60px;
+  }
+  * {
+    margin: 0;
+  }
+  .name {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .description {
+    margin: 10px 0;
+    white-space: pre-line;
+  }
+  .more-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .more-info p,
+  .more-info a {
+    padding-right: 5px;
+    flex-basis: 20.33%;
+    box-sizing: border-box;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import "./BasicLayout.scss";
-import { Container, Stack, Box, StackDivider } from "@chakra-ui/react";
+import { Container, Stack, Box } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import LeftMenu from "../../components/leftMenu/leftMenu";
 
