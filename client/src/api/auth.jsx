@@ -46,12 +46,16 @@ export function signInApi(user) {
     },
     body: JSON.stringify(data),
   };
+
   return fetch(url, params)
     .then((response) => {
       if (response.status >= 200 && response.status < 300) {
         return response.json();
       }
-      return { message: "Email or password incorrect." };
+      return {
+        message:
+          "the account does not exist / or the email or password are incorrect",
+      };
     })
     .then((result) => {
       return result;
@@ -96,4 +100,26 @@ export function isUserLogedApi() {
     LogoutApi();
   }
   return jwtDecode(token);
+}
+
+export function checkGoogleAccountExists(email) {
+  const checkEmailUrl = `${API_HOST}/check-email?email=${encodeURIComponent(
+    email
+  )}`;
+
+  return fetch(checkEmailUrl)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw new Error("The account does not exist. Please register first.");
+      }
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.error(error);
+      throw new Error("Internal server error, try again later");
+    });
 }
