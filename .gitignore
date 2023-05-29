@@ -51,3 +51,4 @@ client/*.ntvs*
 client/*.njsproj
 client/*.sln
 client/*.sw?
+client/src/page/Home/MessageHelper/custom/gifPicker/config.jsx
