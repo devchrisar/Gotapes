@@ -9,14 +9,21 @@ import {
   Text,
   Link,
   Spinner,
+  Flex,
 } from "@chakra-ui/react";
 import "./SignInForm.scss";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { values, size } from "lodash";
 import { loginFieldSchema } from "../../utils/validation";
-import { signInApi, setTokenApi } from "../../api/auth";
+import {
+  signInApi,
+  setTokenApi,
+  checkGoogleAccountExists,
+} from "../../api/auth";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import SignUpForm from "../SingUpForm/SingUpForm";
+import jwtDecode from "jwt-decode";
 
 export default function SignInForm(props) {
   const { setShowModal, setRefreshCheckLogin } = props;
@@ -25,6 +32,7 @@ export default function SignInForm(props) {
   const [step, setStep] = useState(1);
   const [signInLoading, SetsignInLoading] = useState(false);
   const [isEmailEmpty, setIsEmailEmpty] = useState(true);
+  const [isSigningUp, setIsSigningUp] = useState(false);
 
   let validCount = 0;
 
@@ -72,13 +80,10 @@ export default function SignInForm(props) {
             });
           } else {
             setTokenApi(response.token);
+            console.log(response.token);
             setRefreshCheckLogin(true);
-            /*
-            toast.success("Login successful", {
-              className: "toast__container",
-            });
+
             setFormData(initialFormValue());
-            */
             setShowModal(false);
           }
         })
@@ -110,6 +115,44 @@ export default function SignInForm(props) {
     }
   };
 
+  const handleGoogleSignIn = async (credential) => {
+    try {
+      const decodedToken = jwtDecode(credential);
+      const email = decodedToken.email;
+
+      const accountExists = await checkGoogleAccountExists(email);
+      if (accountExists.exists) {
+        const user = {
+          email,
+          password: "",
+        };
+
+        const signInResponse = await signInApi(user);
+        const { token } = signInResponse;
+
+        if (token) {
+          setTokenApi(token);
+          setRefreshCheckLogin(true);
+          setShowModal(false);
+        } else {
+          toast.error("Failed to sign in with Google", {
+            className: "toast__container",
+          });
+        }
+      } else {
+        toast.error("The account does not exist. Please register first.", {
+          className: "toast__container",
+        });
+      }
+    } catch (error) {
+      toast.error("Internal server error, try again later", {
+        className: "toast__container",
+      });
+    } finally {
+      SetsignInLoading(false);
+    }
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     values(formData).some((value) => {
@@ -126,121 +169,116 @@ export default function SignInForm(props) {
 
   return (
     <div className="sign-in-form">
-      <motion.div
-        className="sign-in-form"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <Heading as="h2">Sign in to Gotapes</Heading>
-        {step === 1 && (
-          <>
-            <Button>
-              <GoogleOAuthProvider clientId="1060640613666-8iuuruthub48ehgu3ljtuqa2t7tol77v.apps.googleusercontent.com">
-                <GoogleLogin
-                  theme="filled_blue"
-                  shape="pill"
-                  text="signin_with"
-                  onSuccess={(credentialResponse) => {
-                    SetsignInLoading(true);
-                    try {
-                      const { credential } = credentialResponse;
-                      setTokenApi(credential);
-                      setRefreshCheckLogin(true);
-                    } catch (error) {
-                      toast.error("Internal server error, try again later", {
+      {isSigningUp ? (
+        <SignUpForm setShowModal={setShowModal} />
+      ) : (
+        <motion.div
+          className="sign-in-form"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Heading as="h2">Sign in to Gotapes</Heading>
+          {step === 1 && (
+            <>
+              <Button>
+                <GoogleOAuthProvider clientId="1060640613666-8iuuruthub48ehgu3ljtuqa2t7tol77v.apps.googleusercontent.com">
+                  <GoogleLogin
+                    theme="filled_blue"
+                    shape="pill"
+                    text="signin_with"
+                    onSuccess={({ credential }) => {
+                      SetsignInLoading(true);
+                      handleGoogleSignIn(credential);
+                    }}
+                    onFailure={() => {
+                      toast.error("Failed to sign in with Google", {
                         className: "toast__container",
                       });
-                    } finally {
-                      SetsignInLoading(false);
-                      setShowModal(false);
-                    }
+                    }}
+                  />
+                </GoogleOAuthProvider>
+              </Button>
+
+              <div className="sign-in-form__lineGroup">
+                <div className="sign-in-form__lineGroup__line_left"></div>
+                <div className="sign-in-form__lineGroup__line_text">Or</div>
+                <div className="sign-in-form__lineGroup__line_right"></div>
+              </div>
+              <FormControl>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => {
+                    setFormData({ ...formData, email: e.target.value });
+                    setIsEmailEmpty(e.target.value === "");
                   }}
-                  onFailure={() => {
-                    console.log("Login Failed");
+                  isInvalid={!!errors.email}
+                />
+                {errors.email && (
+                  <FormErrorMessage>{errors.email}</FormErrorMessage>
+                )}
+              </FormControl>
+              <Button
+                className="btn btn-primary"
+                onClick={goToNextStep}
+                isDisabled={isEmailEmpty}
+              >
+                Next
+              </Button>
+              <Button>¿Forgot password?</Button>
+              <Text mt={4} fontSize="sm">
+                Don't have an account?{" "}
+                <Link color="blue.500" onClick={() => setIsSigningUp(true)}>
+                  Register
+                </Link>
+              </Text>
+            </>
+          )}
+
+          {step === 2 && (
+            <>
+              <FormControl>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  type="email"
+                  value={formData.email}
+                  isReadOnly={true}
+                  onChange={(e) => {
+                    setFormData({ ...formData, email: e.target.value });
                   }}
                 />
-              </GoogleOAuthProvider>
-            </Button>
-            <div className="sign-in-form__lineGroup">
-              <div className="sign-in-form__lineGroup__line_left"></div>
-              <div className="sign-in-form__lineGroup__line_text">Or</div>
-              <div className="sign-in-form__lineGroup__line_right"></div>
-            </div>
-            <FormControl>
-              <FormLabel>Email</FormLabel>
-              <Input
-                type="email"
-                value={formData.email}
-                onChange={(e) => {
-                  setFormData({ ...formData, email: e.target.value });
-                  setIsEmailEmpty(e.target.value === "");
-                }}
-                isInvalid={!!errors.email}
-              />
-              {errors.email && (
-                <FormErrorMessage>{errors.email}</FormErrorMessage>
-              )}
-            </FormControl>
-            <Button
-              className="btn btn-primary"
-              onClick={goToNextStep}
-              isDisabled={isEmailEmpty}
-            >
-              Next
-            </Button>
-            <Button>¿Forgot password?</Button>
-            <Text mt={4} fontSize="sm">
-              Don't have an account?{" "}
-              <Link color="blue.500" href="./">
-                Register
-              </Link>
-            </Text>
-          </>
-        )}
-
-        {step === 2 && (
-          <>
-            <FormControl>
-              <FormLabel>Email</FormLabel>
-              <Input
-                type="email"
-                value={formData.email}
-                isReadOnly={true}
-                onChange={(e) => {
-                  setFormData({ ...formData, email: e.target.value });
-                }}
-              />
-            </FormControl>
-            <FormLabel>Password</FormLabel>
-            <FormControl>
-              <Input
-                type="password"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-                isInvalid={!!errors.password}
-              />
-              {errors.password && (
-                <FormErrorMessage>{errors.password}</FormErrorMessage>
-              )}
-            </FormControl>
-            <Button colorScheme="blue" type="submit" onClick={onSubmit}>
-              {!signInLoading ? "Sign In" : <Spinner />}
-            </Button>
-            <Text mt={4} fontSize="sm">
-              <Link color="blue.500" href="#">
-                Forgot password?
-              </Link>{" "}
-              ·{" "}
-              <Link color="blue.500" href="#">
-                Don't have an account? Register
-              </Link>
-            </Text>
-          </>
-        )}
-      </motion.div>
+              </FormControl>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                  isInvalid={!!errors.password}
+                />
+                {errors.password && (
+                  <FormErrorMessage>{errors.password}</FormErrorMessage>
+                )}
+              </FormControl>
+              <Button colorScheme="blue" type="submit" onClick={onSubmit}>
+                {!signInLoading ? "Sign In" : <Spinner />}
+              </Button>
+              <Text mt={4} fontSize="sm">
+                <Flex justify="space-between">
+                  <Link color="blue.500">Forgot password?</Link>{" "}
+                  <Link color="blue.500" onClick={() => setIsSigningUp(true)}>
+                    Don't have an account? Register
+                  </Link>
+                </Flex>
+              </Text>
+            </>
+          )}
+        </motion.div>
+      )}
     </div>
   );
 }

@@ -177,12 +177,13 @@ export default function SingUpForm(props) {
               onSuccess={(credentialResponse) => {
                 const { credential } = credentialResponse;
                 const decoded = jwtDecode(credential);
-                const { given_name, family_name, email } = decoded;
+                const { given_name, family_name, email, picture } = decoded;
 
                 const data = {
                   name: given_name,
                   lastName: family_name,
                   email: email,
+                  avatar: picture,
                   GoogleSignUp: true,
                 };
 
