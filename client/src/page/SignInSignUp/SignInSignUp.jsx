@@ -20,8 +20,8 @@ import {
 import BasicModal from "../../components/Modal/BasicModal/BasicModal";
 import SignUpForm from "../../components/SingUpForm/SingUpForm";
 import SignInForm from "../../components/SignInForm/SignInForm";
-import LogoWhite from "../../assets/svg/logo_GotapesWt-png.png";
-import Logo from "../../assets/svg/logo_Gotapes-svg.svg";
+import LogoWhite from "/assets/svg/logo_GotapesWt-png.png";
+import Logo from "/assets/svg/logo_Gotapes-svg.svg";
 
 export default function SignInSignUp(props) {
   const { setRefreshCheckLogin } = props;
