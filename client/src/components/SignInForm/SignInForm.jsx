@@ -167,6 +167,34 @@ export default function SignInForm(props) {
     }
   };
 
+  const handleGoogleLoginSuccess = ({ credential }) => {
+    SetsignInLoading(true);
+    handleGoogleSignIn(credential);
+  };
+
+  const handleGoogleLoginFailure = () => {
+    toast.error("Failed to sign in with Google", {
+      className: "toast__container",
+    });
+  };
+
+  const handleGoogleEmailChange = (e) => {
+    setFormData({ ...formData, email: e.target.value });
+    setIsEmailEmpty(e.target.value === "");
+  };
+
+  const handleEmailChange = (e) => {
+    setFormData({ ...formData, email: e.target.value });
+  };
+
+  const handleRouteUserToSignUp = () => {
+    setIsSigningUp(true);
+  };
+
+  const handlePasswordChange = (e) => {
+    setFormData({ ...formData, password: e.target.value });
+  };
+
   return (
     <div className="sign-in-form">
       {isSigningUp ? (
@@ -187,15 +215,8 @@ export default function SignInForm(props) {
                     theme="filled_blue"
                     shape="pill"
                     text="signin_with"
-                    onSuccess={({ credential }) => {
-                      SetsignInLoading(true);
-                      handleGoogleSignIn(credential);
-                    }}
-                    onFailure={() => {
-                      toast.error("Failed to sign in with Google", {
-                        className: "toast__container",
-                      });
-                    }}
+                    onSuccess={handleGoogleLoginSuccess}
+                    onFailure={handleGoogleLoginFailure}
                   />
                 </GoogleOAuthProvider>
               </Button>
@@ -210,10 +231,7 @@ export default function SignInForm(props) {
                 <Input
                   type="email"
                   value={formData.email}
-                  onChange={(e) => {
-                    setFormData({ ...formData, email: e.target.value });
-                    setIsEmailEmpty(e.target.value === "");
-                  }}
+                  onChange={handleGoogleEmailChange}
                   isInvalid={!!errors.email}
                 />
                 {errors.email && (
@@ -230,7 +248,7 @@ export default function SignInForm(props) {
               <Button>¿Forgot password?</Button>
               <Text mt={4} fontSize="sm">
                 Don't have an account?{" "}
-                <Link color="blue.500" onClick={() => setIsSigningUp(true)}>
+                <Link color="blue.500" onClick={handleRouteUserToSignUp}>
                   Register
                 </Link>
               </Text>
@@ -245,9 +263,7 @@ export default function SignInForm(props) {
                   type="email"
                   value={formData.email}
                   isReadOnly={true}
-                  onChange={(e) => {
-                    setFormData({ ...formData, email: e.target.value });
-                  }}
+                  onChange={handleEmailChange}
                 />
               </FormControl>
               <FormLabel>Password</FormLabel>
@@ -255,9 +271,7 @@ export default function SignInForm(props) {
                 <Input
                   type="password"
                   value={formData.password}
-                  onChange={(e) =>
-                    setFormData({ ...formData, password: e.target.value })
-                  }
+                  onChange={handlePasswordChange}
                   isInvalid={!!errors.password}
                 />
                 {errors.password && (
@@ -270,7 +284,7 @@ export default function SignInForm(props) {
               <Text mt={4} fontSize="sm">
                 <Flex justify="space-between">
                   <Link color="blue.500">Forgot password?</Link>{" "}
-                  <Link color="blue.500" onClick={() => setIsSigningUp(true)}>
+                  <Link color="blue.500" onClick={handleRouteUserToSignUp}>
                     Don't have an account? Register
                   </Link>
                 </Flex>

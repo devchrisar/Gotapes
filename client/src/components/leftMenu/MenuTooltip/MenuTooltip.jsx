@@ -31,6 +31,14 @@ export default function MenuTooltip(props) {
     navigate("/", { replace: true });
   };
 
+  const handleMouseEnter = () => {
+    handleTooltipHover("menu-tooltip");
+  };
+
+  const handleMouseLeave = () => {
+    handleTooltipLeave("menu-tooltip");
+  };
+
   return (
     <Tooltip
       id="menu-tooltip"
@@ -39,8 +47,8 @@ export default function MenuTooltip(props) {
       effect="solid"
       delayHide={4000}
       clickable
-      onMouseEnter={() => handleTooltipHover("menu-tooltip")}
-      onMouseLeave={() => handleTooltipLeave("menu-tooltip")}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}

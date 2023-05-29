@@ -75,6 +75,68 @@ export default function SingUpForm(props) {
       }
     }
   };
+
+  const handleNameChange = (e) => {
+    setFormData({ ...formData, name: e.target.value });
+  };
+
+  const handleLastNameChange = (e) => {
+    setFormData({ ...formData, lastName: e.target.value });
+  };
+
+  const handleEmailChange = (e) => {
+    setFormData({ ...formData, email: e.target.value });
+  };
+
+  const handlePasswordChange = (e) => {
+    setFormData({ ...formData, password: e.target.value });
+  };
+
+  const handleRepeatPasswordChange = (e) => {
+    setFormData({ ...formData, repeatPassword: e.target.value });
+  };
+
+  const handleGoogleLoginSuccess = async (credentialResponse) => {
+    const { credential } = credentialResponse;
+    const decoded = jwtDecode(credential);
+    const { given_name, family_name, email, picture } = decoded;
+    const data = {
+      name: given_name,
+      lastName: family_name,
+      email: email,
+      avatar: picture,
+      GoogleSignUp: true,
+    };
+
+    SetsingUpLoading(true);
+
+    try {
+      const response = await signUpApi(data);
+      if (response.code) {
+        toast.error(response.message, {
+          className: "toast__container",
+        });
+      } else {
+        toast.success("Registration successful", {
+          className: "toast__container",
+        });
+        setShowModal(false);
+      }
+    } catch (error) {
+      toast.error("Error when registering the user", {
+        className: "toast__container",
+      });
+    } finally {
+      SetsingUpLoading(false);
+    }
+  };
+
+  const handleGoogleLoginError = (error) => {
+    toast.error("Failed to sign in with Google", {
+      className: "toast__container",
+    });
+  };
+
   return (
     <div className="sing-up-form">
       <motion.div
@@ -91,9 +153,7 @@ export default function SingUpForm(props) {
               <Input
                 type="text"
                 value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
+                onChange={handleNameChange}
                 isInvalid={!!errors.name}
               />
               {errors.name && (
@@ -105,9 +165,7 @@ export default function SingUpForm(props) {
               <Input
                 type="text"
                 value={formData.lastName}
-                onChange={(e) =>
-                  setFormData({ ...formData, lastName: e.target.value })
-                }
+                onChange={handleLastNameChange}
                 isInvalid={!!errors.lastName}
               />
               {errors.lastName && (
@@ -121,9 +179,7 @@ export default function SingUpForm(props) {
           <Input
             type="email"
             value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
+            onChange={handleEmailChange}
             isInvalid={!!errors.email}
           />
           {errors.email && <FormErrorMessage>{errors.email}</FormErrorMessage>}
@@ -135,9 +191,7 @@ export default function SingUpForm(props) {
               <Input
                 type="password"
                 value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
+                onChange={handlePasswordChange}
                 isInvalid={!!errors.password}
               />
               {errors.password && (
@@ -149,9 +203,7 @@ export default function SingUpForm(props) {
               <Input
                 type="password"
                 value={formData.repeatPassword}
-                onChange={(e) =>
-                  setFormData({ ...formData, repeatPassword: e.target.value })
-                }
+                onChange={handleRepeatPasswordChange}
                 isInvalid={!!errors.repeatPassword}
               />
               {errors.repeatPassword && (
@@ -174,45 +226,8 @@ export default function SingUpForm(props) {
               theme="filled_blue"
               shape="pill"
               text="signup_with"
-              onSuccess={(credentialResponse) => {
-                const { credential } = credentialResponse;
-                const decoded = jwtDecode(credential);
-                const { given_name, family_name, email, picture } = decoded;
-
-                const data = {
-                  name: given_name,
-                  lastName: family_name,
-                  email: email,
-                  avatar: picture,
-                  GoogleSignUp: true,
-                };
-
-                SetsingUpLoading(true);
-                signUpApi(data)
-                  .then((response) => {
-                    if (response.code) {
-                      toast.error(response.message, {
-                        className: "toast__container",
-                      });
-                    } else {
-                      toast.success("Registration successful", {
-                        className: "toast__container",
-                      });
-                      setShowModal(false);
-                    }
-                  })
-                  .catch(() => {
-                    toast.error("Error when registering the user", {
-                      className: "toast__container",
-                    });
-                  })
-                  .finally(() => {
-                    SetsingUpLoading(false);
-                  });
-              }}
-              onError={() => {
-                console.log("Login Failed");
-              }}
+              onSuccess={handleGoogleLoginSuccess}
+              onError={handleGoogleLoginError}
             />
           </GoogleOAuthProvider>
         </Button>

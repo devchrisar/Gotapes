@@ -88,6 +88,17 @@ function LeftComponent() {
 
 function RightComponent(props) {
   const { openModal, setShowModal, setRefreshCheckLogin } = props;
+  const onSignIn = () => {
+    openModal(
+      <SignInForm
+        setShowModal={setShowModal}
+        setRefreshCheckLogin={setRefreshCheckLogin}
+      />
+    );
+  };
+  const onSignUp = () => {
+    openModal(<SignUpForm setShowModal={setShowModal} />);
+  };
   return (
     <Box className="signin_signup__right" w="50%" h="100vh">
       <motion.div
@@ -103,12 +114,7 @@ function RightComponent(props) {
             colors!
           </Heading>
           <Text as="h3">Sign up to get started</Text>
-          <Button
-            className="btn btn-primary"
-            onClick={() =>
-              openModal(<SignUpForm setShowModal={setShowModal} />)
-            }
-          >
+          <Button className="btn btn-primary" onClick={onSignUp}>
             Create Account
           </Button>
           <Text>
@@ -140,17 +146,7 @@ function RightComponent(props) {
             .
           </Text>
           <Text as="h3">¿Already have an account?</Text>
-          <Button
-            className="btn btn-outline-primary"
-            onClick={() =>
-              openModal(
-                <SignInForm
-                  setShowModal={setShowModal}
-                  setRefreshCheckLogin={setRefreshCheckLogin}
-                />
-              )
-            }
-          >
+          <Button className="btn btn-outline-primary" onClick={onSignIn}>
             Sign In
           </Button>
         </Box>

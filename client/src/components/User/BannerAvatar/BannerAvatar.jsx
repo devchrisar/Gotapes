@@ -54,13 +54,17 @@ export default function BannerAvatar({ user, loggedUser, handleUserUpdate }) {
     });
   };
 
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
   let buttonContent = null;
 
   if (user && loggedUser._id === user.id) {
     buttonContent = (
       <Button
         variant="outline"
-        onClick={() => setShowModal(true)}
+        onClick={handleShowModal}
         className="btn btn-outline-primary"
       >
         Edit Profile

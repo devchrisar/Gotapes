@@ -13,6 +13,11 @@ import LogoWhite from "/assets/svg/logo_GotapesWt-png.png";
 
 export default function BasicModal(props) {
   const { show, setShow, children } = props;
+
+  const handleCloseModal = () => {
+    setShow(false);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -21,7 +26,7 @@ export default function BasicModal(props) {
     >
       <Modal
         isOpen={show}
-        onClose={() => setShow(false)}
+        onClose={handleCloseModal}
         isCentered={true}
         size="lg"
       >

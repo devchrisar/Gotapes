@@ -15,10 +15,14 @@ const ConfigModal = React.memo(
     const MotionModalOverlay = motion(ModalOverlay);
     const MotionModalContent = motion(ModalContent);
 
+    const handleCloseModal = () => {
+      setShow(false);
+    };
+
     return (
       <Modal
         isOpen={show}
-        onClose={() => setShow(false)}
+        onClose={handleCloseModal}
         isCentered
         size="lg"
         closeOnOverlayClick={false}
@@ -37,7 +41,7 @@ const ConfigModal = React.memo(
           >
             <ModalHeader display="flex" alignItems="center">
               <img src={LogoWt} alt="Logo" />
-              <ModalCloseButton onClick={() => setShow(false)} ml="auto" />
+              <ModalCloseButton onClick={handleCloseModal} ml="auto" />
             </ModalHeader>
             <ModalBody>{children}</ModalBody>
           </MotionModalContent>

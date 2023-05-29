@@ -42,6 +42,10 @@ export default function MessageHelper() {
     setMessage((prevMessage) => prevMessage + emoji);
   };
 
+  const handleMessageChange = (e) => {
+    setMessage(e.target.value);
+  };
+
   return (
     <>
       <Stack
@@ -98,7 +102,7 @@ export default function MessageHelper() {
                 variant="unstyled"
                 placeholder="¿what's on your mind?"
                 value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                onChange={handleMessageChange}
               ></Textarea>
               <Stack direction="row" justifyContent="space-between">
                 <Stack

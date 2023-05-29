@@ -71,6 +71,9 @@ function BannerComponent({
   getInputBannerProps,
   formData,
 }) {
+  const onBannerChange = (e) => {
+    handleChange(field.name, e.target.value);
+  };
   return (
     <>
       <Box
@@ -82,7 +85,7 @@ function BannerComponent({
         w="100%"
         name={field.name}
         value={formData[field.name]}
-        onChange={(e) => handleChange(field.name, e.target.value)}
+        onChange={onBannerChange}
         {...getRootBannerProps()}
       >
         <input {...getInputBannerProps()} />
@@ -106,6 +109,9 @@ function AvatarComponent({
   getInputAvatarProps,
   formData,
 }) {
+  const onAvatarChange = (e) => {
+    handleChange(field.name, e.target.value);
+  };
   return (
     <Box
       className="edit-user-form__avatar"
@@ -116,7 +122,7 @@ function AvatarComponent({
       w="200px"
       name={field.name}
       value={formData[field.name]}
-      onChange={(e) => handleChange(field.name, e.target.value)}
+      onChange={onAvatarChange}
       {...getRootAvatarProps()}
     >
       <input {...getInputAvatarProps()} />
@@ -126,12 +132,15 @@ function AvatarComponent({
 }
 
 function TextareaComponent({ field, handleChange, formData }) {
+  const onTextareaChange = (e) => {
+    handleChange(field.name, e.target.value);
+  };
   return (
     <Textarea
       placeholder={field.label}
       name={field.name}
       value={formData[field.name]}
-      onChange={(e) => handleChange(field.name, e.target.value)}
+      onChange={onTextareaChange}
       resize="none"
       size="sm"
       h="190px"
@@ -212,12 +221,15 @@ function LocationComponent({ field, handleChange, formData }) {
 }
 
 function DefaultComponent({ field, handleChange, formData }) {
+  const onInputChange = (e) => {
+    handleChange(field.name, e.target.value);
+  };
   return (
     <Input
       placeholder={field.label}
       name={field.name}
       value={formData[field.name]}
-      onChange={(e) => handleChange(field.name, e.target.value)}
+      onChange={onInputChange}
     />
   );
 }
