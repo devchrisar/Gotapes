@@ -1,23 +1,38 @@
 @import "../../scss/index.scss";
 
 .left_menu {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  height: 100vh;
+  transition: height 0.3s ease;
   .logo {
     width: 50px;
+    height: 70px;
     padding: 20px 0 2px 0;
+    display: flex;
+    align-items: center;
   }
 
   .menu_link {
     font-size: 20px;
     color: $font-light;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 4px;
     text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 10px;
+    border-radius: 70px;
 
     &:hover {
-      border-radius: 70px;
       background-color: rgba($color: #25415b, $alpha: 0.4);
       text-decoration: none;
       color: $font-light;
+      box-shadow: 0 0 10px rgba($color: #25415b, $alpha: 0.4);
     }
 
     &.active {
@@ -42,12 +57,26 @@
 
   .text_bottom {
     margin-top: auto;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     &:hover {
       border-radius: 70px;
       background-color: rgba($color: #25415b, $alpha: 0.4);
       text-decoration: none;
       color: $font-light;
       cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
   }
 }

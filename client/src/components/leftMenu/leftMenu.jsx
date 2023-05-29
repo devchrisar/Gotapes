@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./leftMenu.scss";
-import { Button, Stack, Flex, Text, Image } from "@chakra-ui/react";
+import { Button, Stack, Flex, Text, Image, Skeleton } from "@chakra-ui/react";
+import { AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,21 +12,31 @@ import {
   faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
 import { LogoutApi } from "../../api/auth";
+import { getUserApi } from "../../api/user";
 import useAuth from "../../hooks/useAuth";
-import Logo from "../../assets/svg/logo_GotapesWt-png.png";
+import Logo from "/assets/svg/logo_GotapesWt-png.png";
+import MenuTooltip from "./MenuTooltip/MenuTooltip";
+import Placeholder from "/assets/svg/placeholder.svg";
 
 export default function LeftMenu(props) {
-  const { setRefreshCheckLogin } = props;
+  const [currentUser, setCurrentUser] = useState(null);
   const user = useAuth();
+  const { setRefreshCheckLogin } = props;
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      const response = await getUserApi(user._id);
+      setCurrentUser(response);
+    })();
+  }, [user]);
 
   const logout = () => {
     LogoutApi();
     setRefreshCheckLogin(true);
     navigate("/", { replace: true });
   };
-  const username = "Christopher Arias"; //todo: Replace with username
 
   const isCurrentPath = (path) => {
     return location.pathname === path;
@@ -71,39 +82,61 @@ export default function LeftMenu(props) {
           </Link>
         </Stack>
         <Button className="btn btn-primary">Apeeps</Button>
-        <Stack
-          alignItems="center"
-          padding={4}
-          direction="row"
-          justifyContent="space-between"
-          className="text_bottom"
-        >
+        <AnimatePresence>
           <Stack
-            direction="row"
             alignItems="center"
-            spacing={8}
-            whiteSpace="nowrap"
+            padding={4}
+            direction="row"
+            justifyContent="space-between"
+            className="text_bottom"
+            data-tip=""
+            data-for="menu-tooltip"
           >
-            <Image
-              height={10}
-              width={10}
-              borderRadius="50%"
-              src="https://bit.ly/sage-adebayo"
-              alt="avatar"
-            />
-            <Stack spacing={0} marginLeft={2}>
-              <Text fontWeight="bold" fontSize="sm" color="White">
-                {username.length > 5
-                  ? username.substring(0, 5) + "..."
-                  : username}
-              </Text>
-              <Text fontSize="sm" color="gray.600">
-                @User
-              </Text>
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={8}
+              whiteSpace="nowrap"
+            >
+              <Skeleton
+                isLoaded={!!currentUser}
+                borderRadius="50%"
+                startColor="#192734"
+                endColor="#15212b"
+              >
+                <Image
+                  height={10}
+                  width={10}
+                  backgroundPosition="center"
+                  backgroundSize="cover"
+                  backgroundRepeat="no-repeat"
+                  borderRadius="50%"
+                  src={currentUser?.avatar || Placeholder}
+                  alt="avatar"
+                />
+              </Skeleton>
+              <Stack spacing={0} marginLeft={2}>
+                <Skeleton
+                  isLoaded={!!currentUser}
+                  startColor="#192734"
+                  endColor="#15212b"
+                >
+                  <Text fontWeight="bold" fontSize="sm" color="White">
+                    {user.name.length > 5
+                      ? user.name.substring(0, 5) + "..."
+                      : currentUser.name}
+                  </Text>
+                </Skeleton>
+
+                <Text fontSize="sm" color="gray.600">
+                  @User
+                </Text>
+              </Stack>
+              <FontAwesomeIcon icon={faEllipsis} />
             </Stack>
-            <FontAwesomeIcon icon={faEllipsis} />
           </Stack>
-        </Stack>
+        </AnimatePresence>
+        <MenuTooltip setRefreshCheckLogin={setRefreshCheckLogin} />
       </Stack>
     </Flex>
   );
