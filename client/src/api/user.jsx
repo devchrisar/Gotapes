@@ -8,7 +8,7 @@ export async function getUserApi(id) {
     Authorization: `Bearer${token}`,
   };
   const params = {
-    headers: headers,
+    headers,
   };
 
   try {
@@ -38,7 +38,7 @@ export async function uploadBannerApi(file) {
 
   const params = {
     method: "POST",
-    headers: headers,
+    headers,
     body: formData,
   };
 
@@ -64,7 +64,7 @@ export async function uploadAvatarApi(file) {
 
   const params = {
     method: "POST",
-    headers: headers,
+    headers,
     body: formData,
   };
 
@@ -86,7 +86,7 @@ export async function updateInfoApi(data) {
 
   const params = {
     method: "PUT",
-    headers: headers,
+    headers,
     body: JSON.stringify(data),
   };
 

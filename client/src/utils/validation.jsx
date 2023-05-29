@@ -13,7 +13,7 @@ export const validationSchema = yup.object().shape({
   email: yup
     .string()
     .matches(
-      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/u,
       "Email is not valid"
     )
     .required("Email is required"),

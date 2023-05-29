@@ -8,7 +8,7 @@ export async function checkFollowApi(idUser) {
     Authorization: `Bearer ${token}`,
   };
   const params = {
-    headers: headers,
+    headers,
   };
   try {
     const response = await fetch(url, params);
@@ -26,7 +26,7 @@ export async function followUserApi(idUser) {
     Authorization: `Bearer ${token}`,
   };
   const params = {
-    headers: headers,
+    headers,
     method: "POST",
   };
   try {
@@ -45,7 +45,7 @@ export async function unfollowUserApi(idUser) {
     Authorization: `Bearer ${token}`,
   };
   const params = {
-    headers: headers,
+    headers,
     method: "DELETE",
   };
   try {

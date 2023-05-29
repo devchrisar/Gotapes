@@ -123,7 +123,7 @@ export default function LeftMenu(props) {
                 >
                   <Text fontWeight="bold" fontSize="sm" color="White">
                     {user.name.length > 5
-                      ? user.name.substring(0, 5) + "..."
+                      ? `${user.name.substring(0, 5)}...`
                       : currentUser.name}
                   </Text>
                 </Skeleton>

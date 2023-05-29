@@ -18,6 +18,16 @@ import { signUpApi } from "../../api/auth";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import jwtDecode from "jwt-decode";
 
+function initialFormValue() {
+  return {
+    name: "",
+    lastName: "",
+    email: "",
+    password: "",
+    repeatPassword: "",
+  };
+}
+
 export default function SingUpForm(props) {
   const { setShowModal } = props;
   const [formData, setFormData] = useState(initialFormValue());
@@ -234,14 +244,4 @@ export default function SingUpForm(props) {
       </motion.div>
     </div>
   );
-}
-
-function initialFormValue() {
-  return {
-    name: "",
-    lastName: "",
-    email: "",
-    password: "",
-    repeatPassword: "",
-  };
 }

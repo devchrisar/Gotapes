@@ -88,6 +88,7 @@ function isExpiredToken(token) {
   const timeOut = expirationDate.getTime() - new Date().getTime();
 
   if (timeOut < 0) return true;
+  return null;
 }
 
 export function isUserLogedApi() {

@@ -234,6 +234,17 @@ function DefaultComponent({ field, handleChange, formData }) {
   );
 }
 
+function initialformData() {
+  return {
+    birthDate: user.birthDate ? new Date(user.birthDate) : null,
+    name: user.name || "",
+    lastName: user.lastName || "",
+    bio: user.bio || "",
+    webSite: user.webSite || "",
+    location: user.location || "",
+  };
+}
+
 export default function EditUserForm({ onClose, user, handleUserUpdate }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [formData, setFormData] = useState(initialformData());
@@ -286,16 +297,6 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
     }
   }, [formData, isUpdating]);
 
-  function initialformData() {
-    return {
-      birthDate: user.birthDate ? new Date(user.birthDate) : null,
-      name: user.name || "",
-      lastName: user.lastName || "",
-      bio: user.bio || "",
-      webSite: user.webSite || "",
-      location: user.location || "",
-    };
-  }
   useEffect(() => {
     if (
       (bannerModified && formData.bannerFile && modalClosed) ||
@@ -643,6 +644,7 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
       default:
         return DefaultComponent;
     }
+    return DefaultComponent;
   };
 
   return (
