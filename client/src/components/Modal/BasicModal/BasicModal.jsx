@@ -9,6 +9,7 @@ import {
   ModalBody,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import LogoWhite from "/assets/svg/logo_GotapesWt-png.png";
 
 export default function BasicModal(props) {
   const { show, setShow, children } = props;
@@ -27,7 +28,7 @@ export default function BasicModal(props) {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            <Image src="src\assets\svg\logo_GotapesWt-png.png" alt="logo" />
+            <Image src={LogoWhite} alt="logo" />
           </ModalHeader>
           <ModalBody>{children}</ModalBody>
         </ModalContent>
