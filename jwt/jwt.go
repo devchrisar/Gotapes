@@ -18,6 +18,7 @@ func GenerateJWT(user models.User) (string, error) {
 		"Bio":       user.Bio,
 		"location":  user.Location,
 		"website":   user.WebSite,
+		"avatar":    user.Avatar,
 		"_id":       user.ID.Hex(),
 		"exp":       time.Now().Add(time.Hour * 24).Unix(),
 	}

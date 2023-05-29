@@ -12,6 +12,7 @@ func InsertUser(user models.User) (string, bool, error) {
 	db := MongoC.Database("Gotapes")
 	col := db.Collection("users")
 	user.Password = EncryptPassword(user.Password)
+	user.CreatedAt = time.Now()
 	result, err := col.InsertOne(ctx, user)
 	if err != nil {
 		return "", false, err

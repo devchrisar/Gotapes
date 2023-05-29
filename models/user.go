@@ -17,5 +17,7 @@ type User struct {
 	Bio          string             `bson:"bio" json:"bio,omitempty"`
 	Location     string             `bson:"location" json:"location,omitempty"`
 	WebSite      string             `bson:"webSite" json:"webSite,omitempty"`
+	CreatedAt    time.Time          `bson:"createdAt" json:"createdAt"`
 	GoogleSignUp bool               `bson:"googleSignUp" json:"googleSignUp"`
+	IsVerified   bool               `bson:"isVerified" json:"isVerified"`
 }

@@ -19,12 +19,13 @@ func Handlers() {
 	router.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"}, // Replace * with your frontend's URL in production
 		AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
-		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 	}))
 	routes.RegisterRoute(router)
 	routes.LoginRoute(router)
 	routes.ProfileRoute(router)
 	routes.AlterprofileRoute(router)
+	routes.CheckEmailRoute(router)
 	routes.TweetRoute(router)
 	routes.ReadTweetsRoute(router)
 	routes.DeleteTweetsRoute(router)
