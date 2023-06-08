@@ -19,6 +19,7 @@ func Tweet(c echo.Context) error {
 	register := models.Tweet{
 		UserID:  Userid,
 		Message: msg.Message,
+		GIFurl:  msg.GIFurl,
 		Date:    time.Now(),
 	}
 	err = db.PublishToQueue(register)

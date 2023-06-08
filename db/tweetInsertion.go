@@ -15,6 +15,7 @@ func TweetInsertion(tweet models.Tweet) (string, bool, error) {
 	register := bson.M{
 		"userid":  tweet.UserID,
 		"message": tweet.Message,
+		"gifUrl":  tweet.GIFurl,
 		"date":    tweet.Date,
 	}
 	result, err := collection.InsertOne(ctx, register)
