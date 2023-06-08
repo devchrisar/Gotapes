@@ -29,7 +29,7 @@ export default function Users({ setRefreshCheckLogin }) {
       try {
         setIsLoading(true);
         const { page, ...restParams } = params;
-        const parsedPage = parseInt(page);
+        const parsedPage = parseInt(page, 10);
 
         if (isNaN(parsedPage) || parsedPage <= 0) {
           throw new Error("Invalid page value");
@@ -67,7 +67,7 @@ export default function Users({ setRefreshCheckLogin }) {
     if (type === typeUser) return;
     setUsers([]);
     setTypeUser(type);
-    navigate(`?${queryString.stringify({ type: type, page: 1, search: "" })}`);
+    navigate(`?${queryString.stringify({ type, page: 1, search: "" })}`);
   };
 
   const handleNewType = () => {
@@ -84,7 +84,7 @@ export default function Users({ setRefreshCheckLogin }) {
 
   const handleLoadMore = () => {
     setBtnLoading(true);
-    const newPage = parseInt(params.page) + 1;
+    const newPage = parseInt(params.page, 10) + 1;
     navigate(`?${queryString.stringify({ ...params, page: newPage })}`);
   };
 

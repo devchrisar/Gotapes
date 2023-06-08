@@ -5,16 +5,16 @@ export function replaceURLWithHTMLLinks(text) {
 
   const parts = text?.split(exp);
 
-  return parts.map((part, index) => {
-    if (part.match(exp)) {
+  return parts.map((part) => {
+    if (exp.test(part)) {
       let url = part;
-      if (!part.match(/^(?:https?|ftp|file):\/\//i)) {
-        url = "http://" + part;
+      if (!/^(?:https?|ftp|file):\/\//i.test(part)) {
+        url = `http://  ${part}`;
       }
       return React.createElement(
         "a",
         {
-          key: index,
+          key: url,
           href: url,
           target: "_blank",
           rel: "noopener noreferrer",
