@@ -67,9 +67,9 @@ export default function SingUpForm(props) {
           SetsingUpLoading(false);
         });
     } catch (error) {
-      const validationErrors = (error.inner || []).reduce((errors, err) => {
-        errors[err.path] = err.message;
-        return errors;
+      const validationErrors = (error.inner || []).reduce((errs, err) => {
+        errs[err.path] = err.message;
+        return errs;
       }, {});
       setErrors(validationErrors);
       if (validCount !== size(formData)) {

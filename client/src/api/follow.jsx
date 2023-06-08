@@ -56,3 +56,21 @@ export async function unfollowUserApi(idUser) {
     return err.message;
   }
 }
+
+export async function getFollowersApi(paramsUrl) {
+  const url = `${API_HOST}/list_users?${paramsUrl}`;
+  const token = getTokenApi();
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  const params = {
+    headers,
+  };
+  try {
+    const response = await fetch(url, params);
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    return err.message;
+  }
+}
