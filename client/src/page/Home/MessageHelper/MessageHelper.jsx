@@ -4,11 +4,12 @@ import {
   Text,
   StackDivider,
   Image,
-  Textarea,
   Button,
   CircularProgress,
+  CircularProgressLabel,
   Divider,
   Skeleton,
+  Box,
 } from "@chakra-ui/react";
 import { AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,16 +20,22 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
+import { addApeepsApi } from "../../../api/apeeps";
+import toast from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
 import Placeholder from "/assets/svg/placeholder.svg";
 import { getUserApi } from "../../../api/user";
+import AutoResizeTextarea from "./custom/AutoResizeTextArea/AutoResizeTextArea";
 import EmojiPicker from "./custom/emojiPicker/emojiPicker";
 import GifPicker from "./custom/gifPicker/gifPicker";
 
 export default function MessageHelper() {
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState("");
+  const [selectedGif, setSelectedGif] = useState(null);
   const currentUser = useAuth();
+  const gifUrl = selectedGif?.url || "";
+  const completeMessage = message;
   const iconIds = ["image", "face", "film", "poll"];
 
   useEffect(() => {
@@ -44,6 +51,61 @@ export default function MessageHelper() {
 
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
+  };
+
+  const CharacterCount = message.length;
+  const maxCharacterCount = 700;
+  const isExceedingLimit = CharacterCount > maxCharacterCount;
+  const color = isExceedingLimit ? "red" : "#0078d4";
+
+  const handleBtnDisabled = () => {
+    if (isExceedingLimit || CharacterCount === 0) {
+      return true;
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (
+      (event.key === "Delete" ||
+        event.key === "Backspace" ||
+        event.code === "Delete" ||
+        event.code === "Backspace") &&
+      message === "" &&
+      selectedGif
+    ) {
+      setSelectedGif(null);
+    }
+  };
+
+  const handleTextareaFocus = (event) => {
+    const cursorPosition = event.target.selectionStart;
+    setSelectedGif((prevSelectedGif) => ({
+      ...prevSelectedGif,
+      cursorPosition,
+    }));
+  };
+
+  const handleSend = async () => {
+    setMessage("");
+    setSelectedGif(null);
+    try {
+      await addApeepsApi(completeMessage, gifUrl).then((response) => {
+        if (response?.code >= 200 && response?.code < 300) {
+          toast.success(response.message, {
+            className: "toast__container",
+          });
+        }
+      });
+    } catch (error) {
+      toast.error("internal server error", {
+        className: "toast__container",
+      });
+    }
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    handleSend();
   };
 
   return (
@@ -90,20 +152,48 @@ export default function MessageHelper() {
                 borderRadius="50%"
                 width={12}
                 height={12}
+                maxW="none"
               />
             </Skeleton>
             <Stack
               divider={<StackDivider borderColor="gray.700" />}
               width="100%"
             >
-              <Textarea
-                fontSize="xl"
-                fontWeight="500"
-                variant="unstyled"
-                placeholder="¿what's on your mind?"
-                value={message}
-                onChange={handleMessageChange}
-              ></Textarea>
+              <Box>
+                {selectedGif?.url && (
+                  <>
+                    <img
+                      src={selectedGif.url}
+                      alt={selectedGif.description || "gif"}
+                      style={{
+                        top: 0,
+                        left: 0,
+                        width: "100px",
+                        height: "100px",
+                      }}
+                    />
+                    <Divider
+                      borderColor="rgba(29, 261, 241, 0.1)"
+                      width="100%"
+                    />
+                  </>
+                )}
+                <AutoResizeTextarea
+                  minRows={2}
+                  maxRows={10}
+                  fontSize="xl"
+                  fontWeight="500"
+                  variant="unstyled"
+                  minHeight="100px"
+                  overflowY="auto"
+                  resize="none"
+                  placeholder="¿what's on your mind?"
+                  value={message}
+                  onChange={handleMessageChange}
+                  onKeyDown={handleKeyDown}
+                  onFocus={handleTextareaFocus}
+                />
+              </Box>
               <Stack direction="row" justifyContent="space-between">
                 <Stack
                   direction="row"
@@ -121,7 +211,12 @@ export default function MessageHelper() {
                     data-for={iconIds[1]}
                     onSelect={handleEmojiSelect}
                   />
-                  <GifPicker data-tip="" data-for={iconIds[2]} />
+                  <GifPicker
+                    data-tip=""
+                    data-for={iconIds[2]}
+                    selectedGif={selectedGif}
+                    setSelectedGif={setSelectedGif}
+                  />
                   <FontAwesomeIcon
                     icon={faSquarePollVertical}
                     data-tip=""
@@ -136,11 +231,26 @@ export default function MessageHelper() {
                   spacing={4}
                 >
                   <CircularProgress
-                    size={6}
+                    size={8}
                     trackColor="whiteAlpha.300"
-                    value={20}
-                  />
-                  <Button className="btn btn-primary">Apeeps</Button>
+                    color={color}
+                    value={CharacterCount}
+                    max={700}
+                  >
+                    {isExceedingLimit && (
+                      <CircularProgressLabel fontSize="11px" color="red">
+                        &ndash;{CharacterCount - 700}
+                      </CircularProgressLabel>
+                    )}
+                  </CircularProgress>
+                  <Button
+                    type="submit"
+                    className="btn btn-primary"
+                    isDisabled={handleBtnDisabled()}
+                    onClick={onSubmit}
+                  >
+                    Apeeps
+                  </Button>
                 </Stack>
               </Stack>
             </Stack>

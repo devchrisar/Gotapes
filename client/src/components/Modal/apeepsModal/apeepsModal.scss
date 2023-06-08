@@ -1,0 +1,37 @@
+@import "../../../scss/index.scss";
+
+.apeepsModal {
+  .modal-content {
+    background-color: $background-grey-dark;
+    border-radius: 25px;
+    overflow: hidden;
+
+    .modal-header {
+      border-bottom: 1px solid $border-grey;
+      padding: 15px;
+    }
+  }
+  .modal-body {
+    padding: 0;
+
+    form {
+      textarea {
+        background-color: $background-grey-dark;
+        border: 0;
+        font-size: 20px;
+        color: $font-light;
+        padding: 10px 20px;
+        resize: none;
+        &:focus {
+          box-shadow: none;
+        }
+      }
+      .count {
+        margin: 15px;
+        &.error {
+          border-color: $danger;
+        }
+      }
+    }
+  }
+}
