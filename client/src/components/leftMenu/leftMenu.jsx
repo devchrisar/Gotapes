@@ -11,6 +11,7 @@ import {
   faPowerOff,
   faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
+import ApeepsModal from "../Modal/apeepsModal/apeepsModal";
 import { LogoutApi } from "../../api/auth";
 import { getUserApi } from "../../api/user";
 import useAuth from "../../hooks/useAuth";
@@ -20,6 +21,7 @@ import Placeholder from "/assets/svg/placeholder.svg";
 
 export default function LeftMenu(props) {
   const [currentUser, setCurrentUser] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const user = useAuth();
   const { setRefreshCheckLogin } = props;
   const location = useLocation();
@@ -40,6 +42,10 @@ export default function LeftMenu(props) {
 
   const isCurrentPath = (path) => {
     return location.pathname === path;
+  };
+
+  const handleModalOpen = () => {
+    setShowModal(true);
   };
 
   return (
@@ -77,11 +83,20 @@ export default function LeftMenu(props) {
           >
             <FontAwesomeIcon icon={faUser} /> Profile
           </Link>
-          <Link onClick={logout} className="menu_link">
+          <Button
+            as="a"
+            onClick={logout}
+            className="menu_link"
+            variant="link"
+            style={{ cursor: "pointer" }}
+          >
             <FontAwesomeIcon icon={faPowerOff} /> Logout
-          </Link>
+          </Button>
         </Stack>
-        <Button className="btn btn-primary">Apeeps</Button>
+        <Button className="btn btn-primary" onClick={handleModalOpen}>
+          Apeeps
+        </Button>
+        <ApeepsModal showModal={showModal} setShowModal={setShowModal} />
         <AnimatePresence>
           <Stack
             alignItems="center"
