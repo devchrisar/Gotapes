@@ -12,6 +12,7 @@ import {
   Box,
   Icon,
   Heading,
+  CircularProgress,
   Flex,
   Text,
   FormErrorMessage,
@@ -132,19 +133,28 @@ function AvatarComponent({
 }
 
 function TextareaComponent({ field, handleChange, formData }) {
+  const characterCount = formData[field.name].length;
   const onTextareaChange = (e) => {
     handleChange(field.name, e.target.value);
   };
   return (
-    <Textarea
-      placeholder={field.label}
-      name={field.name}
-      value={formData[field.name]}
-      onChange={onTextareaChange}
-      resize="none"
-      size="sm"
-      h="190px"
-    />
+    <>
+      <Textarea
+        placeholder={field.label}
+        name={field.name}
+        value={formData[field.name]}
+        onChange={onTextareaChange}
+        resize="none"
+        size="sm"
+        h="190px"
+      />
+      <CircularProgress
+        size={6}
+        trackColor="whiteAlpha.300"
+        value={characterCount}
+        max={455}
+      />
+    </>
   );
 }
 
@@ -171,7 +181,7 @@ function LocationComponent({ field, handleChange, formData }) {
       );
       setSelectedCountry(selectedOption);
     } catch (error) {
-      console.error("Error fetching countries:", error);
+      throw new Error("Error fetching countries:", error);
     }
   };
 
@@ -234,7 +244,7 @@ function DefaultComponent({ field, handleChange, formData }) {
   );
 }
 
-function initialformData() {
+function initialformData(user) {
   return {
     birthDate: user.birthDate ? new Date(user.birthDate) : null,
     name: user.name || "",
@@ -247,7 +257,7 @@ function initialformData() {
 
 export default function EditUserForm({ onClose, user, handleUserUpdate }) {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [formData, setFormData] = useState(initialformData());
+  const [formData, setFormData] = useState(initialformData(user));
   const [bannerUrl, setBannerUrl] = useState(
     user?.banner ? `${API_HOST}/obtain_Banner?id=${user.id}` : null
   );
