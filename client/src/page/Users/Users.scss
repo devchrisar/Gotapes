@@ -1,0 +1,84 @@
+@import "../../scss/index.scss";
+
+.users {
+  &__title {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 0;
+      font-weight: bold;
+    }
+
+    input {
+      width: 50%;
+      border-radius: 50px;
+      border: 0;
+      background-color: $background-dark-light;
+      padding: 5px 20px;
+      color: $font-light;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  &__options {
+    .chakra-button {
+      color: $font-light;
+      background-color: transparent;
+      font-weight: bold;
+      border: 0;
+      border-bottom: 1px solid $border-grey;
+      padding: 15px 0;
+      border-radius: 0;
+
+      &:hover {
+        background-color: rgba(29, 161, 242, 0.1);
+      }
+      &.active {
+        border-bottom: 3px solid $primary;
+      }
+    }
+  }
+
+  &__load-more-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .users__load__load-more {
+    display: flex;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: transparent;
+    border: 0;
+
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      color: $primary;
+    }
+  }
+
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 50px;
+    height: 100vh;
+
+    > div {
+      margin-bottom: 10px;
+    }
+  }
+}
