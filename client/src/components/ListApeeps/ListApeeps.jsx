@@ -23,12 +23,13 @@ import "./ListApeeps.scss";
 import * as luxon from "luxon";
 
 export default function ListApeeps({ apeeps }) {
+  const cache = new CellMeasurerCache({
+    defaultHeight: 79,
+    fixedWidth: true,
+  });
+
   const rowRenderer = ({ index, key, parent, style }) => {
     const apeep = apeeps[index];
-    const cache = new CellMeasurerCache({
-      defaultHeight: 79,
-      fixedWidth: true,
-    });
 
     return (
       <CellMeasurer
