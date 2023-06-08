@@ -17,7 +17,9 @@ export default function ListUsers({ users, searchTerm }) {
           pb={4}
         />
         <Stack textAlign="center">
-          <Heading>There&apos;s no results that match "{searchTerm}"</Heading>
+          <Heading>
+            There&apos;s no results that match &quot;{searchTerm}&quot;
+          </Heading>
           <Text color="gray.500">
             Try searching for another thing or check your spelling
           </Text>

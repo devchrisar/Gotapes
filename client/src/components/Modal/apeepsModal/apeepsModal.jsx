@@ -52,6 +52,7 @@ export default function ApeepsModal({ showModal, setShowModal }) {
     if (isExceedingLimit || CharacterCount === 0) {
       return true;
     }
+    return null;
   };
 
   const handleKeyDown = (event) => {

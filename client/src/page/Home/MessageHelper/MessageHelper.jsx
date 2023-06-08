@@ -62,6 +62,7 @@ export default function MessageHelper() {
     if (isExceedingLimit || CharacterCount === 0) {
       return true;
     }
+    return null;
   };
 
   const handleKeyDown = (event) => {

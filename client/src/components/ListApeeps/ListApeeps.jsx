@@ -25,6 +25,10 @@ import * as luxon from "luxon";
 export default function ListApeeps({ apeeps }) {
   const rowRenderer = ({ index, key, parent, style }) => {
     const apeep = apeeps[index];
+    const cache = new CellMeasurerCache({
+      defaultHeight: 79,
+      fixedWidth: true,
+    });
 
     return (
       <CellMeasurer
@@ -43,11 +47,6 @@ export default function ListApeeps({ apeeps }) {
       </CellMeasurer>
     );
   };
-
-  const cache = new CellMeasurerCache({
-    defaultHeight: 79,
-    fixedWidth: true,
-  });
 
   return (
     <div className="list-apeeps">
