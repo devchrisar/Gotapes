@@ -120,7 +120,6 @@ export function checkGoogleAccountExists(email) {
       return data;
     })
     .catch((error) => {
-      console.error(error);
       throw new Error("Internal server error, try again later");
     });
 }

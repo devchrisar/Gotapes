@@ -10,8 +10,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilm } from "@fortawesome/free-solid-svg-icons";
 import CustomTheme from "../../../../../theme/index";
 import config from "./config";
-export default function GifPickerComponent() {
+export default function GifPickerComponent({ setSelectedGif }) {
   const { tenorApiKey } = config;
+  const handleGifSelect = (gif) => {
+    setSelectedGif(gif);
+  };
   return (
     <Popover>
       <PopoverTrigger>
@@ -24,7 +27,11 @@ export default function GifPickerComponent() {
       >
         <PopoverBody>
           <div>
-            <GifPicker tenorApiKey={tenorApiKey} theme={"dark"} />
+            <GifPicker
+              tenorApiKey={tenorApiKey}
+              theme={"dark"}
+              onGifClick={handleGifSelect}
+            />
           </div>
         </PopoverBody>
       </PopoverContent>
