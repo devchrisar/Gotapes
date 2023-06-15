@@ -37,6 +37,7 @@ func Handlers() {
 	routes.LowerRelationRoute(router)
 	routes.CheckRelationRoute(router)
 	routes.ListUsersRoute(router)
+	routes.SearchUsersRoutes(router)
 	routes.ReadFollowersTweetsRoute(router)
 
 	go db.ConsumeFromQueue()
