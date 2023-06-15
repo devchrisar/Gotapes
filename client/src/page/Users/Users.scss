@@ -57,7 +57,6 @@
   .users__load__load-more {
     display: flex;
     margin: 0 auto;
-    margin-top: 10px;
     margin-bottom: 10px;
     background-color: transparent;
     border: 0;
@@ -66,6 +65,10 @@
     &:focus {
       background-color: transparent;
       color: $primary;
+    }
+
+    &.mt-100vh {
+      margin-top: 100vh;
     }
   }
 

@@ -143,7 +143,9 @@ export default function Users({ setRefreshCheckLogin }) {
                 onClick={handleLoadMore}
                 isLoading={btnLoading}
                 display="flex"
-                className="users__load__load-more"
+                className={`users__load__load-more ${
+                  users.length < 5 ? "mt-100vh" : ""
+                }`}
                 variant="unstyled"
                 color="#1da0f2"
                 m="0 auto"

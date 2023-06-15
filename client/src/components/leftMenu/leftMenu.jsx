@@ -144,7 +144,7 @@ export default function LeftMenu(props) {
                 </Skeleton>
 
                 <Text fontSize="sm" color="gray.600">
-                  @User
+                  {currentUser?.username}
                 </Text>
               </Stack>
               <FontAwesomeIcon icon={faEllipsis} />

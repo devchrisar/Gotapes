@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Tooltip } from "react-tooltip";
 import { motion } from "framer-motion";
 import "react-tooltip/dist/react-tooltip.css";
@@ -6,10 +6,21 @@ import { Button, VStack } from "@chakra-ui/react";
 import "./MenuTooltip.scss";
 import { LogoutApi } from "../../../api/auth";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
+import { getUserApi } from "../../../api/user";
 
 export default function MenuTooltip(props) {
+  const [currentUser, setCurrentUser] = useState(null);
   const { setRefreshCheckLogin } = props;
   const navigate = useNavigate();
+  const user = useAuth();
+
+  useEffect(() => {
+    (async () => {
+      const response = await getUserApi(user._id);
+      setCurrentUser(response);
+    })();
+  }, [user]);
 
   const handleTooltipHover = (tooltipId) => {
     const tooltip = document.getElementById(tooltipId);
@@ -61,7 +72,7 @@ export default function MenuTooltip(props) {
             add a different account
           </Button>
           <Button as="a" onClick={logout} variant="link">
-            Close @username session
+            Close {currentUser?.username} session
           </Button>
         </VStack>
       </motion.div>

@@ -41,8 +41,10 @@ export default function ListApeeps({ apeeps }) {
       >
         {({ measure }) => (
           <div style={style}>
-            <Apeeps apeep={apeep} onResize={measure} />
-            <Divider borderColor="gray.700" width="100%" spacing={0} />
+            <article>
+              <Apeeps apeep={apeep} onResize={measure} />
+              <Divider borderColor="gray.700" width="100%" spacing={0} />
+            </article>
           </div>
         )}
       </CellMeasurer>
@@ -122,7 +124,7 @@ function Apeeps({ apeep, onResize }) {
             />
           )}
           <Text fontSize="sm" fontWeight="normal" color="gray.500" ml={2}>
-            @username
+            {userInfo?.username}
           </Text>
           <Text color="gray.500" ml={2} mr={1}>
             ·

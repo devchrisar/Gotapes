@@ -72,6 +72,11 @@ export default function InfoUser({ user, handleUserUpdate }) {
           </Flex>
         </Skeleton>
         <Skeleton isLoaded={!!user} startColor="#192734" endColor="#15212b">
+          <Text color="gray.600" mb="2">
+            {user?.username}
+          </Text>
+        </Skeleton>
+        <Skeleton isLoaded={!!user} startColor="#192734" endColor="#15212b">
           <Text color="gray.600" mb="4">
             {user?.email}
           </Text>
