@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import "./SignInSignUp.scss";
 import {
   Box,
@@ -33,6 +34,13 @@ export default function SignInSignUp(props) {
   };
   return (
     <>
+      <Helmet>
+        <title>Gotapes</title>
+        <meta
+          name="description"
+          content="Sign in or sign up to Gotapes and connect with your friends and the world around you. Don't be shy, show your true colors!"
+        />
+      </Helmet>
       <Box minH="100vh">
         <Container maxW="none" m="0" p="0" className="signin_signup">
           <Flex>
@@ -119,27 +127,15 @@ function RightComponent(props) {
           </Button>
           <Text>
             By signing up, you agree to the{" "}
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://gotapes.netlify.app/tos"
-            >
+            <a target="_blank" rel="noreferrer" href="/tos">
               Terms of Service
             </a>{" "}
             and{" "}
-            <a
-              href="https://gotapes.netlify.app/privacy"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href="/privacy" target="_blank" rel="noreferrer">
               Privacy Policy
             </a>
             , including the
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://gotapes.netlify.app/gotapes&cookies"
-            >
+            <a target="_blank" rel="noreferrer" href="/cookies">
               {" "}
               Cookie Policy
             </a>

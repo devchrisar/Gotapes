@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import { AuthContext } from "./utils/contexts";
 import { isUserLogedApi } from "./api/auth";
 import Routing from "./routes/Routing";
+import { HelmetProvider } from "react-helmet-async";
 
 export default function App() {
   const [user, Setuser] = useState(null);
@@ -19,23 +20,25 @@ export default function App() {
   if (!loadUser) return null;
 
   return (
-    <AuthContext.Provider value={user}>
-      {user ? (
-        <Routing setRefreshCheckLogin={setRefreshCheckLogin} />
-      ) : (
-        <SignInSignUp setRefreshCheckLogin={setRefreshCheckLogin} />
-      )}
-      <Toaster
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnVisibilityChange
-        draggable
-        pauseOnHover
-      />
-    </AuthContext.Provider>
+    <HelmetProvider>
+      <AuthContext.Provider value={user}>
+        {user ? (
+          <Routing setRefreshCheckLogin={setRefreshCheckLogin} />
+        ) : (
+          <SignInSignUp setRefreshCheckLogin={setRefreshCheckLogin} />
+        )}
+        <Toaster
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnVisibilityChange
+          draggable
+          pauseOnHover
+        />
+      </AuthContext.Provider>
+    </HelmetProvider>
   );
 }

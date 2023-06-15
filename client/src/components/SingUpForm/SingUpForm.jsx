@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import "./SingUpForm.scss";
 import {
   FormControl,
@@ -149,6 +150,13 @@ export default function SingUpForm(props) {
 
   return (
     <div className="sing-up-form">
+      <Helmet>
+        <title>Gotapes - Sign Up</title>
+        <meta
+          name="description"
+          content="Sign up to Gotapes and connect with your friends"
+        />
+      </Helmet>
       <motion.div
         className="sing-up-form"
         initial={{ opacity: 0 }}

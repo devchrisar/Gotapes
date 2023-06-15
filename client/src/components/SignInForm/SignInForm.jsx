@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import {
   FormLabel,
   FormControl,
@@ -203,6 +204,13 @@ export default function SignInForm(props) {
 
   return (
     <div className="sign-in-form">
+      <Helmet>
+        <title>Gotapes - Sign In</title>
+        <meta
+          name="description"
+          content="Sign in to Gotapes and connect with your friends"
+        />
+      </Helmet>
       {isSigningUp ? (
         <SignUpForm setShowModal={setShowModal} />
       ) : (
