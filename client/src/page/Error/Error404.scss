@@ -2,3 +2,34 @@
 
 .error404 {
 }
+
+.menu_link {
+  font-size: 20px;
+  color: $font-light;
+  font-weight: bold;
+  margin-bottom: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding: 10px;
+  border-radius: 70px;
+
+  &:hover {
+    background-color: rgba($color: #25415b, $alpha: 0.4);
+    text-decoration: none;
+    color: $font-light;
+    box-shadow: 0 0 10px rgba($color: #25415b, $alpha: 0.4);
+  }
+}
+button {
+  color: $font-light;
+  background-color: transparent;
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 15px;
+  border-radius: 50px;
+
+  &:hover {
+    background-color: rgba(29, 261, 241, 0.1);
+  }
+}
