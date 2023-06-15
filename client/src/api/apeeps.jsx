@@ -46,3 +46,21 @@ export async function getApeepsApi(IDuser, page = 1) {
     return error;
   }
 }
+
+export async function getApeepsFollowersApi(page = 1) {
+  const url = `${API_HOST}/read_followers_tweets?page=${page}`;
+  const token = getTokenApi();
+  const params = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const response = await fetch(url, params);
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    return error;
+  }
+}
