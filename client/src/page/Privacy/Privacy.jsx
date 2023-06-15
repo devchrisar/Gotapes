@@ -19,11 +19,11 @@ export default function Privacy() {
       <Text>Last Updated: 14/06/2023</Text>
 
       <Text mt={4}>
-        This Privacy Policy applies to your use of our application Gotapes ("the
-        App"). By using the App, you consent to the collection, use, and
-        disclosure of your personal information as described in this policy.
-        This policy explains how we collect, store, and protect your personal
-        information and the choices you have regarding the use of that
+        This Privacy Policy applies to your use of our application Gotapes
+        (&quot;the App&quot;). By using the App, you consent to the collection,
+        use, and disclosure of your personal information as described in this
+        policy. This policy explains how we collect, store, and protect your
+        personal information and the choices you have regarding the use of that
         information.
       </Text>
 
@@ -79,7 +79,7 @@ export default function Privacy() {
       </UnorderedList>
       <Text>
         We do not share this information with any third parties except as
-        necessary to provide the App's core functionality. Your personal
+        necessary to provide the App&apos;s core functionality. Your personal
         information is treated with the utmost confidentiality and is securely
         stored in our database.
       </Text>

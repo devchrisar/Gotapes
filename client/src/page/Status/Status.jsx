@@ -11,11 +11,6 @@ export default function Status() {
   const [loading, setLoading] = useState(true);
   const [incidents, setIncidents] = useState([]);
 
-  useEffect(() => {
-    fetchSummary();
-    fetchIncidents();
-  }, []);
-
   const fetchSummary = async () => {
     try {
       const response = await fetch(
@@ -40,6 +35,11 @@ export default function Status() {
       console.error("Error fetching incidents:", error);
     }
   };
+
+  useEffect(() => {
+    fetchSummary();
+    fetchIncidents();
+  }, []);
 
   const formatDaysAgo = (dateString) => {
     try {

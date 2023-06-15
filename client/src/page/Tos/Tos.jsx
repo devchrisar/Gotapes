@@ -18,10 +18,10 @@ export default function Tos() {
       </Heading>
 
       <Text mt={4}>
-        These Terms of Service ("Terms") govern your use of our application
-        Gotapes ("the App"). By accessing or using the App, you agree to be
-        bound by these Terms. If you do not agree with any part of these Terms,
-        please refrain from using the App.
+        These Terms of Service (&quot;Terms&quot;) govern your use of our
+        application Gotapes (&quot;the App&quot;). By accessing or using the
+        App, you agree to be bound by these Terms. If you do not agree with any
+        part of these Terms, please refrain from using the App.
       </Text>
 
       <Heading as="h2" mt={6} mb={2}>
@@ -59,8 +59,8 @@ export default function Tos() {
         - Do not engage in any fraudulent, harmful, or abusive activities.
       </Text>
       <Text ml={4}>
-        - Do not interfere with the operation of the App or disrupt other users'
-        enjoyment of the App.
+        - Do not interfere with the operation of the App or disrupt other
+        users&apos; enjoyment of the App.
       </Text>
       <Text ml={4}>
         - Do not upload or transmit any content that infringes upon the
@@ -101,16 +101,16 @@ export default function Tos() {
         7. Disclaimer
       </Heading>
       <Text>
-        The App is provided "as is" and "as available" basis without warranties
-        of any kind, either express or implied, including, but not limited to,
-        implied warranties of merchantability, fitness for a particular purpose,
-        and non-infringement. We do not warrant that the App will be available,
-        secure, or error-free, that defects will be corrected, or that the App
-        is free of viruses or other harmful components. We do not warrant or
-        make any representations regarding the use or the results of the use of
-        the App in terms of its correctness, accuracy, reliability, or
-        otherwise. You assume the entire risk as to the results and performance
-        of the App.
+        The App is provided &quot;as is&quot; and &quot;as available&quot; basis
+        without warranties of any kind, either express or implied, including,
+        but not limited to, implied warranties of merchantability, fitness for a
+        particular purpose, and non-infringement. We do not warrant that the App
+        will be available, secure, or error-free, that defects will be
+        corrected, or that the App is free of viruses or other harmful
+        components. We do not warrant or make any representations regarding the
+        use or the results of the use of the App in terms of its correctness,
+        accuracy, reliability, or otherwise. You assume the entire risk as to
+        the results and performance of the App.
       </Text>
 
       <Text mt={6}>

@@ -21,10 +21,11 @@ export default function Cookie() {
       </Text>
 
       <Text mt={4} fontSize="md">
-        This Cookies Policy applies to your use of our application Gotapes ("the
-        App"). By using the App, you consent to the use of cookies and other
-        tracking technologies as described in this policy. This policy explains
-        how we use these technologies and the options you have to control them.
+        This Cookies Policy applies to your use of our application Gotapes
+        (&quot;the App&quot;). By using the App, you consent to the use of
+        cookies and other tracking technologies as described in this policy.
+        This policy explains how we use these technologies and the options you
+        have to control them.
       </Text>
 
       <Heading as="h2" fontSize="xl" mt={6} mb={2}>

@@ -25,6 +25,27 @@ export default function Error404() {
         users = response.data;
       }
 
+      const getMatchScore = (user, inputValue) => {
+        const fullName = `${user.name} ${user.lastName}`;
+        const reversedFullName = `${user.lastName} ${user.name}`;
+
+        if (fullName.toLowerCase().includes(inputValue.toLowerCase())) {
+          return 4;
+        } else if (
+          reversedFullName.toLowerCase().includes(inputValue.toLowerCase())
+        ) {
+          return 3;
+        } else if (user.name.toLowerCase().includes(inputValue.toLowerCase())) {
+          return 2;
+        } else if (
+          user.lastName.toLowerCase().includes(inputValue.toLowerCase())
+        ) {
+          return 1;
+        }
+
+        return 0;
+      };
+
       if (users.length > 0) {
         const options = users
           .sort((a, b) => {
@@ -45,25 +66,6 @@ export default function Error404() {
       console.error("Error fetching users:", error);
       return [];
     }
-  };
-
-  const getMatchScore = (user, inputValue) => {
-    const fullName = user.name + " " + user.lastName;
-    const reversedFullName = user.lastName + " " + user.name;
-
-    if (fullName.toLowerCase().includes(inputValue.toLowerCase())) {
-      return 4;
-    } else if (
-      reversedFullName.toLowerCase().includes(inputValue.toLowerCase())
-    ) {
-      return 3;
-    } else if (user.name.toLowerCase().includes(inputValue.toLowerCase())) {
-      return 2;
-    } else if (user.lastName.toLowerCase().includes(inputValue.toLowerCase())) {
-      return 1;
-    }
-
-    return 0;
   };
 
   const handleUserChange = (selectedOption) => {
@@ -108,11 +110,11 @@ export default function Error404() {
           <img src={logo} alt="Logo" />
         </Box>
         <Box fontSize="xl" fontWeight="bold">
-          Sorry, that page doesn't exist!
+          Sorry, that page doesn&apos;t exist!
         </Box>
         <Heading my={2}>
-          Thanks for noticing - we're going to fix it up and have things back to
-          normal soon.
+          Thanks for noticing - we&apos;re going to fix it up and have things
+          back to normal soon.
         </Heading>
         <Flex alignItems="center" my={4}>
           <Box width="800px" mr={4}>
