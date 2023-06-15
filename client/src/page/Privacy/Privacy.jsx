@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import { Box, Heading, Text, UnorderedList, ListItem } from "@chakra-ui/react";
 import "./Privacy.scss";
 
@@ -13,6 +14,13 @@ export default function Privacy() {
       mx="auto"
       className="privacy"
     >
+      <Helmet>
+        <title>Gotapes</title>
+        <meta
+          name="description"
+          content="Privacy Policy for Gotapes. We take your privacy seriously. Read this policy to learn more about how we handle your personal information."
+        />
+      </Helmet>
       <Heading as="h1" mb={4}>
         Privacy Policy
       </Heading>

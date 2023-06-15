@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Box, Text, Link, Icon, Skeleton, Flex, Image } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence } from "framer-motion";
@@ -54,6 +55,21 @@ export default function InfoUser({ user, handleUserUpdate }) {
   return (
     <AnimatePresence>
       <Box className="info-user" p={4}>
+        <Helmet>
+          <title>
+            {user
+              ? `Gotapes - ${user.name} ${user.lastName} ${user.username}`
+              : "Gotapes - User Not Found"}
+          </title>
+          <meta
+            name="description"
+            content={
+              user
+                ? `Gotapes profile of ${user?.name} ${user?.lastName} ${user?.username} ${user?.bio}`
+                : "Gotapes - User Not Found"
+            }
+          />
+        </Helmet>
         <Skeleton isLoaded={!!user} startColor="#192734" endColor="#15212b">
           <Flex align="center">
             <Text fontSize="xl" fontWeight="bold" mb="2">

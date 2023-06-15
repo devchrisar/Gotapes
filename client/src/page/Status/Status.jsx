@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Box, Flex, Image, Text, Heading } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { DateTime } from "luxon";
@@ -153,6 +154,13 @@ export default function Status() {
 
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center">
+      <Helmet>
+        <title>Gotapes - Status</title>
+        <meta
+          name="description"
+          content="Check the status of Gotapes and its services."
+        />
+      </Helmet>
       <Box position="absolute" top={4} right={4}>
         <Link to="/" className="menu_link">
           Home

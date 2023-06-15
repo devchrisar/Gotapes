@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -91,6 +92,10 @@ export default function Error404() {
 
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center">
+      <Helmet>
+        <title>Gotapes - uh oh!</title>
+        <meta name="description" content="Error 404" />
+      </Helmet>
       <Box position="absolute" top={4} right={4}>
         <Link to="/" className="menu_link">
           Home

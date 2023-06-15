@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import { Box, Heading, Text, UnorderedList, ListItem } from "@chakra-ui/react";
 import "./Cookie.scss";
 
@@ -13,6 +14,13 @@ export default function Cookie() {
       mx="auto"
       className="cookie"
     >
+      <Helmet>
+        <title>Gotapes</title>
+        <meta
+          name="description"
+          content="Cookies Policy for Gotapes. We use cookies and other tracking technologies to improve your experience. Read this policy to learn more about how we use these technologies."
+        />
+      </Helmet>
       <Heading as="h1" fontSize="2xl" mb={4}>
         Cookies Policy
       </Heading>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import BasicLayout from "../../layout/BasicLayout/BasicLayout";
 import ListUsers from "../../components/ListUsers/ListUsers";
 import { Button, ButtonGroup, Input, Spinner } from "@chakra-ui/react";
@@ -100,6 +101,13 @@ export default function Users({ setRefreshCheckLogin }) {
       title="Users"
       setRefreshCheckLogin={setRefreshCheckLogin}
     >
+      <Helmet>
+        <title>Gotapes - Users</title>
+        <meta
+          name="description"
+          content="See all the users of Gotapes and connect with them. search for users and follow them to see their apeeps."
+        />
+      </Helmet>
       <div className="users__title">
         <h2>Users</h2>
         <Input

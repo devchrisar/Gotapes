@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import "./Tos.scss";
 
@@ -13,6 +14,13 @@ export default function Tos() {
       mx="auto"
       className="tos"
     >
+      <Helmet>
+        <title>Gotapes</title>
+        <meta
+          name="description"
+          content="Terms of Service for Gotapes. Read this policy to learn more about the terms that govern your use of Gotapes."
+        />
+      </Helmet>
       <Heading as="h1" mb={4}>
         Terms of Service
       </Heading>
