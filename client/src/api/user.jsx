@@ -98,3 +98,23 @@ export async function updateInfoApi(data) {
     return err.message;
   }
 }
+
+export async function searchUserApi(search) {
+  const url = `${API_HOST}/search?${search}`;
+  const token = getTokenApi();
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const params = {
+    headers,
+  };
+
+  try {
+    const response = await fetch(url, params);
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    return err.message;
+  }
+}
