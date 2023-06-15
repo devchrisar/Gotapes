@@ -21,6 +21,7 @@ func AlterRegister(user models.User, ID string) (bool, error) {
 			update["birthDate"] = user.BirthDate
 		}
 	}
+	addField("username", user.Username)
 	addField("name", user.Name)
 	addField("lastName", user.LastName)
 	addField("avatar", user.Avatar)
