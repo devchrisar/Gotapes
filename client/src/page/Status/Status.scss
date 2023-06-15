@@ -1,0 +1,73 @@
+@import "../../scss/index.scss";
+
+.menu_link {
+  font-size: 20px;
+  color: $font-light;
+  font-weight: bold;
+  margin-bottom: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding: 10px;
+  border-radius: 70px;
+
+  &:hover {
+    background-color: rgba($color: #25415b, $alpha: 0.4);
+    text-decoration: none;
+    color: $font-light;
+    box-shadow: 0 0 10px rgba($color: #25415b, $alpha: 0.4);
+  }
+
+  &.active {
+    font-weight: bold;
+    color: $primary;
+  }
+
+  svg {
+    margin-right: 20px;
+    width: 30px;
+  }
+}
+
+.operational {
+  color: #4caf50;
+}
+.degraded_performance {
+  color: #ff9800;
+}
+.partial_outage {
+  color: #ffff00;
+}
+.major_outage {
+  color: #f44336;
+}
+.maintenance {
+  color: #2196f3;
+}
+
+.component-operation.status {
+  &-none {
+    background-color: #4caf50;
+    color: #000;
+  }
+  &-minor {
+    background-color: #ff9800;
+    color: #000;
+  }
+  &-major {
+    background-color: #f4e736;
+    color: #000;
+  }
+  &-critical {
+    background-color: #f44336;
+    color: #000;
+  }
+}
+
+.incidents {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
