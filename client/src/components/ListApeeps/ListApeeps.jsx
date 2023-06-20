@@ -127,7 +127,7 @@ function Apeeps({ apeep, onResize }) {
             {userInfo?.username}
           </Text>
           <Text color="gray.500" ml={2} mr={1}>
-            ·
+            {userInfo && "·"}
           </Text>
           <Text fontSize="sm" fontWeight="normal" color="gray.500" ml={2}>
             {luxon.DateTime.fromISO(apeep.date).toRelative()}

@@ -1,0 +1,35 @@
+@import "../../scss/index.scss";
+
+.footer {
+  ul > li > a {
+    color: $font-light;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.button_badge {
+  margin-bottom: 35px;
+}
+
+.banner {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 300px;
+  background-image: url("/assets/svg/banner_about.svg");
+}
+
+.banner_message {
+  width: 100%;
+  height: 800px;
+  background-image: url("/assets/svg/about_bg02.jpeg");
+  background-position: center center;
+  background-size: cover;
+
+  &_content {
+    background: $background-grey-dark;
+  }
+}
