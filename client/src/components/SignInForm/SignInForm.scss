@@ -51,4 +51,17 @@
     background: #1c2541;
     color: #415a77;
   }
+  .btn_Back {
+    all: unset;
+    border-radius: 70px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    &:hover {
+      border-radius: 70px;
+      background-color: rgba($color: #25415b, $alpha: 0.4);
+      box-shadow: 0 0 10px rgba($color: #25415b, $alpha: 0.4);
+    }
+  }
 }
