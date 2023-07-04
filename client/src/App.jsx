@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import SignInSignUp from "./page/SignInSignUp/SignInSignUp";
 import { Toaster } from "react-hot-toast";
 import { AuthContext } from "./utils/contexts";
 import { isUserLogedApi } from "./api/auth";
@@ -12,9 +11,14 @@ export default function App() {
   const [refreshCheckLogin, setRefreshCheckLogin] = useState(false);
 
   useEffect(() => {
-    Setuser(isUserLogedApi());
-    setRefreshCheckLogin(false);
-    setLoadUser(true);
+    const checkAuthentication = async () => {
+      const loggedUser = await isUserLogedApi();
+      Setuser(loggedUser);
+      setRefreshCheckLogin(false);
+      setLoadUser(true);
+    };
+
+    checkAuthentication();
   }, [refreshCheckLogin]);
 
   if (!loadUser) return null;
@@ -22,11 +26,11 @@ export default function App() {
   return (
     <HelmetProvider>
       <AuthContext.Provider value={user}>
-        {user ? (
-          <Routing setRefreshCheckLogin={setRefreshCheckLogin} />
-        ) : (
-          <SignInSignUp setRefreshCheckLogin={setRefreshCheckLogin} />
-        )}
+        <Routing
+          user={user}
+          refreshCheckLogin={refreshCheckLogin}
+          setRefreshCheckLogin={setRefreshCheckLogin}
+        />
         <Toaster
           position="top-right"
           autoClose={5000}
