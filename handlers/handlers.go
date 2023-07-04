@@ -17,7 +17,7 @@ func Handlers() {
 
 	router := echo.New()
 	router.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*"}, // Replace * with your frontend's URL in production
+		AllowOrigins: []string{"*"}, // Replace * with your frontend's URL in production  TODO: e.g. os.Getenv("APP_URL")
 		AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 	}))
@@ -26,6 +26,9 @@ func Handlers() {
 	routes.ProfileRoute(router)
 	routes.AlterprofileRoute(router)
 	routes.CheckEmailRoute(router)
+	routes.CheckUsernameRoute(router)
+	routes.ForgotPasswordRoute(router)
+	routes.NewPasswordRoute(router)
 	routes.TweetRoute(router)
 	routes.ReadTweetsRoute(router)
 	routes.DeleteTweetsRoute(router)
