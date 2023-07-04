@@ -40,7 +40,7 @@ export default function About() {
             <Box flex={1}>
               <img
                 src={bg_placeholder}
-                alt="Image"
+                alt="background placeholder that says about gotapes"
                 width="100%"
                 height="auto"
               />

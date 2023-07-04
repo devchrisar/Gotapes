@@ -123,3 +123,90 @@ export function checkGoogleAccountExists(email) {
       throw new Error("Internal server error, try again later", error);
     });
 }
+
+export function checkUsernameExists(username) {
+  const checkUsernameUrl = `${API_HOST}/check-username?username=${encodeURIComponent(
+    username
+  )}`;
+
+  return fetch(checkUsernameUrl)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw new Error("The account does not exist. Please register first.");
+      }
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      throw new Error("Internal server error, try again later", error);
+    });
+}
+
+export function sendPasswordResetEmail(identifier) {
+  const sendPasswordResetEmailUrl = `${API_HOST}/forgot-password`;
+  const params = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: `identifier=${encodeURIComponent(identifier)}`,
+  };
+  return fetch(sendPasswordResetEmailUrl, params);
+}
+
+export function resetPassword(password, token) {
+  const resetPasswordUrl = `${API_HOST}/reset-password?token=${encodeURIComponent(
+    token
+  )}`;
+  const params = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: `password=${encodeURIComponent(password)}`,
+  };
+  return fetch(resetPasswordUrl, params).then((response) => {
+    if (response.status === 200) {
+      return "Password successfully changed";
+    } else if (response.status === 400) {
+      throw new Error("Expired or invalid link");
+    } else {
+      throw new Error("Internal server error, try again later");
+    }
+  });
+}
+
+export function signInUserAfterReset(email, password) {
+  const url = `${API_HOST}/login`;
+  const data = {
+    email: email.toLowerCase(),
+    password,
+  };
+  const params = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      return {
+        message:
+          "The account does not exist or the email or password is incorrect",
+      };
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err;
+    });
+}
