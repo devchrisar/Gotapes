@@ -175,33 +175,24 @@ export default function SignInForm(props) {
     }
   };
 
-  const handleForgotPasswordSubmit = async (e) => {
-    e.preventDefault();
+  const sendPasswordResetEmailAndHandleResponse = async (userClaim) => {
     try {
-      await userForgotPasswordSchema.validate(
-        { userClaimNewPassword },
-        { abortEarly: false }
-      );
-
-      if (isEmpty(userClaimNewPassword)) {
-        displayErrorToast("You must fill in this field");
-        return;
-      }
-
-      if (userClaimNewPassword.startsWith("@")) {
-        await handleForgotPasswordSubmitForUsername();
+      const emailResponse = await sendPasswordResetEmail(userClaim);
+      if (emailResponse.status === 200) {
+        toast.success("Email sent successfully", {
+          className: "toast__container",
+        });
+        setShowModal(false);
+        navigate("/forgot-password");
+      } else if (emailResponse.status === 429) {
+        displayErrorToast(
+          "Too many requests, try again later or wait 30 minutes"
+        );
       } else {
-        await handleForgotPasswordSubmitForEmail();
+        displayErrorToast("Failed to send the email. Please try again.");
       }
     } catch (error) {
-      const validationErrors = (error.inner || []).reduce((errors, err) => {
-        errors[err.path] = err.message;
-        return errors;
-      }, {});
-      setErrors(validationErrors);
-      Object.values(validationErrors).forEach((errorMessage) => {
-        displayErrorToast(errorMessage);
-      });
+      displayErrorToast("Internal server error, try again later");
     }
   };
 
@@ -242,24 +233,33 @@ export default function SignInForm(props) {
     }
   };
 
-  const sendPasswordResetEmailAndHandleResponse = async (userClaim) => {
+  const handleForgotPasswordSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const emailResponse = await sendPasswordResetEmail(userClaim);
-      if (emailResponse.status === 200) {
-        toast.success("Email sent successfully", {
-          className: "toast__container",
-        });
-        setShowModal(false);
-        navigate("/forgot-password");
-      } else if (emailResponse.status === 429) {
-        displayErrorToast(
-          "Too many requests, try again later or wait 30 minutes"
-        );
+      await userForgotPasswordSchema.validate(
+        { userClaimNewPassword },
+        { abortEarly: false }
+      );
+
+      if (isEmpty(userClaimNewPassword)) {
+        displayErrorToast("You must fill in this field");
+        return;
+      }
+
+      if (userClaimNewPassword.startsWith("@")) {
+        await handleForgotPasswordSubmitForUsername();
       } else {
-        displayErrorToast("Failed to send the email. Please try again.");
+        await handleForgotPasswordSubmitForEmail();
       }
     } catch (error) {
-      displayErrorToast("Internal server error, try again later");
+      const validationErrors = (error.inner || []).reduce((errors, err) => {
+        errors[err.path] = err.message;
+        return errors;
+      }, {});
+      setErrors(validationErrors);
+      Object.values(validationErrors).forEach((errorMessage) => {
+        displayErrorToast(errorMessage);
+      });
     }
   };
 

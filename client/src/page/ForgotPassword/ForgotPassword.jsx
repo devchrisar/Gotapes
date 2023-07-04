@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { size, values } from "lodash";
 import Logo from "/assets/svg/logo_Gotapes-svg.svg";
 import ErrIcon from "/assets/svg/close-cancel.svg";
@@ -23,7 +23,6 @@ import Tilt from "react-vanilla-tilt";
 import { DateTime } from "luxon";
 import jwtDecode from "jwt-decode";
 import { Helmet } from "react-helmet-async";
-import { useNavigate } from "react-router-dom";
 import { userResetPasswordSchema } from "../../utils/validation";
 import {
   resetPassword,

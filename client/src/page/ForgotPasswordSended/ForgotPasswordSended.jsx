@@ -45,9 +45,9 @@ export default function ForgotPasswordSended() {
           been successfully sent. However, we recommend checking your spam or
           junk folder in case our message was mistakenly redirected. Sometimes,
           email filters can play tricks and move legitimate emails to the wrong
-          folder. That's why we also suggest checking your primary inbox. If you
-          can't find the email after these checks, we recommend contacting us
-          for further assistance.
+          folder. That&apos;s why we also suggest checking your primary inbox.
+          If you can&apos;t find the email after these checks, we recommend
+          contacting us for further assistance.
         </Text>
         <Divider my={4} borderColor="gray.600" />
         <Chakralink
@@ -55,7 +55,7 @@ export default function ForgotPasswordSended() {
           rel="stylesheet"
           style={{ color: "#1da1f2" }}
         >
-          i didn't receive the email
+          i didn&apos;t receive the email
         </Chakralink>
       </Box>
       <Helmet>

@@ -183,7 +183,7 @@ export function signInUserAfterReset(email, password) {
   const url = `${API_HOST}/login`;
   const data = {
     email: email.toLowerCase(),
-    password: password,
+    password,
   };
   const params = {
     method: "POST",
