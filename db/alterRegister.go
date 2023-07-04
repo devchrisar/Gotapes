@@ -24,6 +24,8 @@ func AlterRegister(user models.User, ID string) (bool, error) {
 	addField("username", user.Username)
 	addField("name", user.Name)
 	addField("lastName", user.LastName)
+	hashedPassword := EncryptPassword(user.Password)
+	update["password"] = hashedPassword
 	addField("avatar", user.Avatar)
 	addField("banner", user.Banner)
 	addField("bio", user.Bio)
