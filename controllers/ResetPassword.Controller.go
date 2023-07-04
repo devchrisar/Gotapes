@@ -50,7 +50,7 @@ func ForgotPassword(c echo.Context) error {
 			"message": "error generating reset password token",
 		})
 	}
-	
+
 	err = db.SendResetPasswordEmail(user.Email, resetToken)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
