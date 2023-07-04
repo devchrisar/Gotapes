@@ -38,3 +38,23 @@ export const loginFieldSchema = yup.object().shape({
   email: validationSchema.fields.email,
   password: validationSchema.fields.password,
 });
+
+export const userForgotPasswordSchema = yup.object().shape({
+  userClaimNewPassword: yup
+    .mixed()
+    .test(
+      "test-userClaimNewPassword",
+      "Invalid email or username",
+      function (value) {
+        const email = /^@?\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        const username = /^@[\w]+$/;
+        return email.test(value) || username.test(value);
+      }
+    )
+    .required("this field is required"),
+});
+
+export const userResetPasswordSchema = yup.object().shape({
+  password: validationSchema.fields.password,
+  repeatPassword: validationSchema.fields.repeatPassword,
+});
