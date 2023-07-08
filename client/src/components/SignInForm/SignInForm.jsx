@@ -427,7 +427,7 @@ export default function SignInForm(props) {
                   Forgot password?
                 </Link>{" "}
                 <Link color="blue.500" onClick={handleRouteUserToSignUp}>
-                  Don't have an account? Register
+                  Don&apos;t have an account? Register
                 </Link>
               </Flex>
             </Box>
