@@ -27,6 +27,7 @@ export default function Home(props) {
         userId: apeep.userrelationid,
         message: apeep.Tweet.message,
         date: apeep.Tweet.date,
+        gifUrl: apeep.Tweet.gifurl,
       });
     });
     return apeepsTemp;

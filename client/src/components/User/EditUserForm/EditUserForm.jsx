@@ -27,6 +27,7 @@ import {
   uploadAvatarApi,
   updateInfoApi,
   getUserApi,
+  searchUserApi,
 } from "../../../api/user";
 import Placeholder from "/assets/svg/placeholder.svg";
 
@@ -133,7 +134,7 @@ function AvatarComponent({
 }
 
 function TextareaComponent({ field, handleChange, formData }) {
-  const characterCount = formData[field.name].length;
+  const characterCount = formData[field.name] ? formData[field.name].length : 0;
   const onTextareaChange = (e) => {
     handleChange(field.name, e.target.value);
   };
@@ -247,8 +248,10 @@ function DefaultComponent({ field, handleChange, formData }) {
 function initialformData(user) {
   return {
     birthDate: user.birthDate ? new Date(user.birthDate) : null,
+    username: user.username || "",
     name: user.name || "",
     lastName: user.lastName || "",
+    password: user.password || "",
     bio: user.bio || "",
     webSite: user.webSite || "",
     location: user.location || "",
@@ -257,6 +260,7 @@ function initialformData(user) {
 
 export default function EditUserForm({ onClose, user, handleUserUpdate }) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [modifiedFields, setModifiedFields] = useState({});
   const [formData, setFormData] = useState(initialformData(user));
   const [bannerUrl, setBannerUrl] = useState(
     user?.banner ? `${API_HOST}/obtain_Banner?id=${user.id}` : null
@@ -293,7 +297,9 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
   useEffect(() => {
     const updateProfile = async () => {
       try {
-        await updateInfoApi(formData);
+        if (Object.keys(modifiedFields).length > 0) {
+          await updateInfoApi(modifiedFields);
+        }
       } catch (error) {
         toast.error("Error updating the profile");
       } finally {
@@ -321,7 +327,7 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
             "Banner uploaded successfully, refresh the page if you don't see the changes",
             {
               className: "toast__container",
-              autoClose: 7000,
+              duration: 7000,
             }
           )
         )
@@ -331,15 +337,17 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
     }
     if (avatarModified && formData.avatarFile) {
       uploadAvatarApi(formData.avatarFile)
-        .then(
-          toast.success(
-            "Avatar uploaded successfully, refresh the page if you don't see the changes",
-            {
-              className: "toast__container",
-              autoClose: 7000,
-            }
-          )
-        )
+        .then(() => {
+          if (!bannerModified) {
+            toast.success(
+              "Avatar uploaded successfully, refresh the page if you don't see the changes",
+              {
+                className: "toast__container",
+                duration: 7000,
+              }
+            );
+          }
+        })
         .catch(() => {
           toast.error("Error uploading the avatar, avatar must be jpg or png");
         });
@@ -396,6 +404,12 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
       component: DatePicker,
     },
     {
+      name: "username",
+      label: "@Username",
+      value: formData.username,
+      component: Input,
+    },
+    {
       name: "name",
       label: "Name",
       value: formData.name,
@@ -405,6 +419,12 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
       name: "lastName",
       label: "Last Name",
       value: formData.lastName,
+      component: Input,
+    },
+    {
+      name: "password",
+      label: "Password",
+      value: formData.password,
       component: Input,
     },
     {
@@ -427,8 +447,19 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
     },
   ];
 
-  const onNextSlide = () => {
+  const onNextSlide = async () => {
     if (currentSlide < slides.length - 1) {
+      if (currentSlide === 3) {
+        const { username } = formData;
+        const searchUser = await searchUserApi(`search=${username}`);
+        if (searchUser && searchUser[0].id !== user.id) {
+          setErrors({ ...errors, username: "Username already in use" });
+          toast.error("Username already in use", {
+            className: "toast__container",
+          });
+          return;
+        }
+      }
       handleSlideChange(currentSlide + 1);
     }
   };
@@ -441,6 +472,17 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
 
   const getValidationSchema = (fieldName) => {
     switch (fieldName) {
+      case "username":
+        return Yup.object().shape({
+          username: Yup.string()
+            .required("Username is required")
+            .matches(
+              /^@[\S]+$/,
+              "Username must start with @ and not contain spaces"
+            )
+            .min(3, "Username is too short")
+            .max(20, "Username is too long"),
+        });
       case "name":
         return Yup.object().shape({
           name: Yup.string()
@@ -454,6 +496,19 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
             .required("Last Name is required")
             .min(3, "Last Name is too short")
             .max(20, "Last Name is too long"),
+        });
+      case "password":
+        return Yup.object().shape({
+          password: Yup.string()
+            .required("Password is required")
+            .matches(
+              /^(?=.*\d)(?=.*[a-z])([^\s]){6,}$/,
+              "Password must contain at least 6 characters, ⚡ one letter ⚡ one number"
+            )
+            .min(
+              6,
+              "Password must contain at least 6 characters, ⚡ one letter ⚡ one number"
+            ),
         });
       case "bio":
         return Yup.object().shape({
@@ -499,7 +554,7 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
   };
 
   const handleValidationErrors = (error) => {
-    const validationErrors = (error.inner || []).reduce((errs, err) => {
+    const validationErrors = (error?.inner || []).reduce((errs, err) => {
       errs[err.path] = err.message;
       return errs;
     }, {});
@@ -516,44 +571,69 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
     return true;
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const validateForm = async () => {
+    const currentField = fields[currentSlide];
+    const originalValue = user[currentField.name] || "";
+    const fieldValue = formData[currentField.name] || "";
 
+    if (fieldValue !== originalValue) {
+      try {
+        const validationSchema = getValidationSchema(currentField.name);
+
+        if (!isSpecialField(currentField.name)) {
+          await validateFormData(validationSchema);
+        }
+
+        updateSpecialFields(currentField.name, fieldValue);
+        setIsUpdating(true);
+        setModifiedFields((prevFields) => ({
+          ...prevFields,
+          [currentField.name]: fieldValue,
+        }));
+      } catch (error) {
+        return handleValidationErrors(error);
+      }
+    } else {
+      setIsFormModified(false);
+    }
+
+    return true;
+  };
+
+  const handleFormSubmission = () => {
     if (currentSlide === slides.length - 1) {
       onClose();
       setModalClosed(true);
       return;
     }
 
-    let shouldProceed = true;
-
     if (isFormModified) {
-      const currentField = fields[currentSlide];
-      const originalValue = user[currentField.name] || "";
-      const fieldValue = formData[currentField.name] || "";
-
-      if (fieldValue !== originalValue) {
-        try {
-          const validationSchema = getValidationSchema(currentField.name);
-
-          if (!isSpecialField(currentField.name)) {
-            await validateFormData(validationSchema);
-          }
-
-          updateSpecialFields(currentField.name, fieldValue);
-          setIsUpdating(true);
-        } catch (error) {
-          shouldProceed = handleValidationErrors(error);
+      return validateForm().then((isValid) => {
+        if (isValid && Object.keys(errors).length === 0) {
+          onNextSlide();
         }
-      } else {
-        setIsFormModified(false);
-      }
+      });
     }
 
-    if (shouldProceed) {
-      setIsFormModified(false);
+    if (Object.keys(errors).length === 0) {
       onNextSlide();
     }
+
+    return Promise.resolve();
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    setIsFormModified(false);
+    if (currentSlide === 3 && errors.username) {
+      toast.error(errors.username, {
+        className: "toast__container",
+      });
+      return;
+    }
+
+    handleFormSubmission();
   };
 
   const slide = slides[currentSlide];
@@ -620,6 +700,10 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
         !formData[currentField.name] ||
         formData[currentField.name] === user[currentField.name];
       return isBirthDateEmpty;
+    }
+
+    if (currentField.name === "password") {
+      return !isUpdating && !formData[currentField.name];
     }
 
     return (

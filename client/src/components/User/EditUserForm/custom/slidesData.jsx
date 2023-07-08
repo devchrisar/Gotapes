@@ -16,6 +16,11 @@ const slides = [
     description: "Celebrate your birthday in Gotapes.",
   },
   {
+    title: "Update your username",
+    description:
+      "have you ever thought about changing your username? Now you can do it! Enter the new username you want to display on your profile.",
+  },
+  {
     title: "Update your name",
     description:
       "Do you want to change your name in Gotapes? Do it now! Enter the new name you want to display on your profile.",
@@ -24,6 +29,11 @@ const slides = [
     title: "Update your last name",
     description:
       "If you want to change your last name in Gotapes, this is the perfect time to do so. Enter your new last name and update your profile.",
+  },
+  {
+    title: "Update your password",
+    description:
+      "thought on a more secure password? Enter your new password and update your profile.",
   },
   {
     title: "Create your unique biography",

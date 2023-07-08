@@ -20,12 +20,17 @@ func AlterRegister(user models.User, ID string) (bool, error) {
 		} else if !user.BirthDate.IsZero() {
 			update["birthDate"] = user.BirthDate
 		}
+		if fieldName == "password" && fieldValue == "" {
+			return
+		}
 	}
 	addField("username", user.Username)
 	addField("name", user.Name)
 	addField("lastName", user.LastName)
-	hashedPassword := EncryptPassword(user.Password)
-	update["password"] = hashedPassword
+	if user.Password != "" {
+		hashedPassword := EncryptPassword(user.Password)
+		update["password"] = hashedPassword
+	}
 	addField("avatar", user.Avatar)
 	addField("banner", user.Banner)
 	addField("bio", user.Bio)
