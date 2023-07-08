@@ -46,7 +46,7 @@ function DatePickerComponent({
     (date) => {
       handleChange(field.name, date);
     },
-    [field.name, handleChange]
+    [field.name, handleChange],
   );
   const formattedDate = formData[field.name]
     ? new Date(formData[field.name])
@@ -169,7 +169,7 @@ function LocationComponent({ field, handleChange, formData }) {
   const fetchCountries = async () => {
     try {
       const response = await fetch(
-        "http://api.geonames.org/countryInfoJSON?username=gotapes_admin"
+        "http://api.geonames.org/countryInfoJSON?username=gotapes_admin",
       );
       const data = await response.json();
       const countriesData = data.geonames.map((country) => ({
@@ -178,7 +178,7 @@ function LocationComponent({ field, handleChange, formData }) {
       }));
       setCountries(countriesData);
       const selectedOption = countriesData.find(
-        (country) => country.value === formData[field.name]
+        (country) => country.value === formData[field.name],
       );
       setSelectedCountry(selectedOption);
     } catch (error) {
@@ -193,7 +193,7 @@ function LocationComponent({ field, handleChange, formData }) {
   const loadOptions = async (inputValue, callback) => {
     try {
       const response = await fetch(
-        `http://api.geonames.org/searchJSON?name=${inputValue}&maxRows=10&username=gotapes_admin`
+        `http://api.geonames.org/searchJSON?name=${inputValue}&maxRows=10&username=gotapes_admin`,
       );
       const data = await response.json();
       const cityOptions = data.geonames.map((result) => ({
@@ -202,7 +202,7 @@ function LocationComponent({ field, handleChange, formData }) {
       }));
 
       const countryOptions = countries.filter((country) =>
-        country.label.toLowerCase().includes(inputValue.toLowerCase())
+        country.label.toLowerCase().includes(inputValue.toLowerCase()),
       );
 
       const options = [...cityOptions, ...countryOptions];
@@ -263,10 +263,10 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
   const [modifiedFields, setModifiedFields] = useState({});
   const [formData, setFormData] = useState(initialformData(user));
   const [bannerUrl, setBannerUrl] = useState(
-    user?.banner ? `${API_HOST}/obtain_Banner?id=${user.id}` : null
+    user?.banner ? `${API_HOST}/obtain_Banner?id=${user.id}` : null,
   );
   const [avatarUrl, setAvatarUrl] = useState(
-    user?.avatar ? `${API_HOST}/obtain_Avatar?id=${user.id}` : Placeholder
+    user?.avatar ? `${API_HOST}/obtain_Avatar?id=${user.id}` : Placeholder,
   );
   const [bannerModified, setBannerModified] = useState(false);
   const [avatarModified, setAvatarModified] = useState(false);
@@ -276,7 +276,7 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [modalClosed, setModalClosed] = useState(false);
   const [birthDateValue, setBirthDateValue] = useState(
-    formData.birthDate ? new Date(formData.birthDate) : null
+    formData.birthDate ? new Date(formData.birthDate) : null,
   );
 
   const handleSlideChange = (newCurrentSlide) => {
@@ -328,8 +328,8 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
             {
               className: "toast__container",
               duration: 7000,
-            }
-          )
+            },
+          ),
         )
         .catch(() => {
           toast.error("Error uploading the banner, banner must be jpg or png");
@@ -344,7 +344,7 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
               {
                 className: "toast__container",
                 duration: 7000,
-              }
+              },
             );
           }
         })
@@ -478,7 +478,7 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
             .required("Username is required")
             .matches(
               /^@[\S]+$/,
-              "Username must start with @ and not contain spaces"
+              "Username must start with @ and not contain spaces",
             )
             .min(3, "Username is too short")
             .max(20, "Username is too long"),
@@ -503,11 +503,11 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
             .required("Password is required")
             .matches(
               /^(?=.*\d)(?=.*[a-z])([^\s]){6,}$/,
-              "Password must contain at least 6 characters, ⚡ one letter ⚡ one number"
+              "Password must contain at least 6 characters, ⚡ one letter ⚡ one number",
             )
             .min(
               6,
-              "Password must contain at least 6 characters, ⚡ one letter ⚡ one number"
+              "Password must contain at least 6 characters, ⚡ one letter ⚡ one number",
             ),
         });
       case "bio":
@@ -518,7 +518,7 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
         return Yup.object().shape({
           webSite: Yup.string().matches(
             /^(?:https?:\/\/)?(?:www\.)?([a-zA-Z0-9-]+\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}\b)(?:\/[\/\w\.-]*)*(?:\?[\w\d\.-]*)?(?:#.*)?$/i,
-            "The website is not a valid URL"
+            "The website is not a valid URL",
           ),
         });
       default:
@@ -679,7 +679,7 @@ export default function EditUserForm({ onClose, user, handleUserUpdate }) {
       });
     }
     setIsButtonDisabled(
-      Object.keys(errors[currentField.name] || {}).length > 0
+      Object.keys(errors[currentField.name] || {}).length > 0,
     );
   };
 

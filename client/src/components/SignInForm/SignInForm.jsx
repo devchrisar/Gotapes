@@ -72,7 +72,7 @@ export default function SignInForm(props) {
     try {
       await loginFieldSchema.validate(
         { email: formData.email },
-        { abortEarly: false }
+        { abortEarly: false },
       );
       setErrors({});
       goToNextStep();
@@ -187,7 +187,7 @@ export default function SignInForm(props) {
         navigate("/forgot-password");
       } else if (emailResponse.status === 429) {
         displayErrorToast(
-          "Too many requests, try again later or wait 30 minutes"
+          "Too many requests, try again later or wait 30 minutes",
         );
       } else {
         displayErrorToast("Failed to send the email. Please try again.");
@@ -203,7 +203,7 @@ export default function SignInForm(props) {
       const response = await checkUsernameExists(userClaimNewPassword);
       if (!response.exists) {
         displayErrorToast(
-          "The account does not exist | email or @username are incorrect"
+          "The account does not exist | email or @username are incorrect",
         );
       } else {
         await sendPasswordResetEmailAndHandleResponse(userClaimNewPassword);
@@ -224,7 +224,7 @@ export default function SignInForm(props) {
         await sendPasswordResetEmailAndHandleResponse(userClaimNewPassword);
       } else {
         displayErrorToast(
-          "The account does not exist | email or @username are incorrect"
+          "The account does not exist | email or @username are incorrect",
         );
       }
     } catch (error) {
@@ -239,7 +239,7 @@ export default function SignInForm(props) {
     try {
       await userForgotPasswordSchema.validate(
         { userClaimNewPassword },
-        { abortEarly: false }
+        { abortEarly: false },
       );
 
       if (isEmpty(userClaimNewPassword)) {
