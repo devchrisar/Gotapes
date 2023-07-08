@@ -12,6 +12,7 @@ import {
   Spinner,
   Flex,
   Icon,
+  Box,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
@@ -402,8 +403,8 @@ export default function SignInForm(props) {
                 onChange={handleEmailChange}
               />
             </FormControl>
-            <FormLabel>Password</FormLabel>
             <FormControl>
+              <FormLabel>Password</FormLabel>
               <Input
                 type="password"
                 value={formData.password}
@@ -417,7 +418,7 @@ export default function SignInForm(props) {
             <Button colorScheme="blue" type="submit" onClick={onSubmit}>
               {!isLoading ? "Sign In" : <Spinner />}
             </Button>
-            <Text mt={4} fontSize="sm">
+            <Box mt={4} fontSize="sm">
               <Flex justify="space-between">
                 <Link
                   color="blue.500"
@@ -426,10 +427,10 @@ export default function SignInForm(props) {
                   Forgot password?
                 </Link>{" "}
                 <Link color="blue.500" onClick={handleRouteUserToSignUp}>
-                  Don&apos;t have an account? Register
+                  Don't have an account? Register
                 </Link>
               </Flex>
-            </Text>
+            </Box>
           </>
         )}
       </motion.div>
